@@ -12,6 +12,7 @@ import Grid from "../components/grid"
 
 const Hero = styled.section`
   grid-column: 3 / span 4;
+  margin-top: 170px;
 
   display: flex;
   flex-direction: column;
@@ -90,6 +91,10 @@ const Latest = styled.section`
   flex-direction: column;
   align-items: center;
 
+  h2 {
+    margin-bottom: 55px;
+  }
+
   .heading-span {
     font-weight: 700;
     font-size: 20;
@@ -110,10 +115,11 @@ const Latest = styled.section`
     }
 
     a {
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 25px 35px;
+      padding: 0 37px;
     }
 
     div {
@@ -133,7 +139,6 @@ const Latest = styled.section`
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
-    <Header />
 
     <Grid>
       <Hero>
@@ -174,15 +179,19 @@ const IndexPage = () => (
         </article>
         <article>
           <Link>
-            <time>Styczeń 21, 2021</time>
-            <h3>Tytuł artykułu</h3>
+            <div>
+              <time>Styczeń 21, 2021</time>
+              <h3>Tytuł artykułu</h3>
+            </div>
             <FontAwesomeIcon icon={faAngleRight} />
           </Link>
         </article>
         <article>
           <Link>
-            <time>Styczeń 21, 2021</time>
-            <h3>Tytuł artykułu</h3>
+            <div>
+              <time>Styczeń 21, 2021</time>
+              <h3>Tytuł artykułu</h3>
+            </div>
             <FontAwesomeIcon icon={faAngleRight} />
           </Link>
         </article>
