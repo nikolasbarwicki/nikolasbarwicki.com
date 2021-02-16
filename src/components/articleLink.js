@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 
 const Wrapper = styled.article`
-  height: 127px;
   width: 100%;
+  padding: ${p => (p.sm ? "17px 0" : "40px 0")};
   border-radius: 20px;
   margin-bottom: 43px;
   transition: box-shadow 200ms ease-in;
@@ -29,26 +29,29 @@ const Wrapper = styled.article`
 
   div {
     display: flex;
-    flex-direction: column;
+    flex-direction: ${p => (p.sm ? "row" : "column")};
+    align-items: ${p => (p.sm ? "center" : "flex-start")};
 
     time {
       font-size: 15px;
+      min-width: 48px;
       color: ${({ theme }) => theme.color.lightText};
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: ${p => (p.sm ? "0" : "10px")};
+      margin-right: ${p => (p.sm ? "15px" : "0")};
     }
   }
 `
 
-const ArticleLink = ({ date, title, url }) => {
+const ArticleLink = ({ date, title, url, sm }) => {
   return (
-    <Wrapper>
+    <Wrapper sm={sm}>
       <Link to={url}>
         <div>
           <time>{date}</time>
           <h3>{title}</h3>
         </div>
-        <FontAwesomeIcon icon={faAngleRight} />
+        {!sm && <FontAwesomeIcon icon={faAngleRight} />}
       </Link>
     </Wrapper>
   )

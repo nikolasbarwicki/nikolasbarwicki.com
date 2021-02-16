@@ -29,6 +29,11 @@ const Wrapper = styled.header`
     transition: all 300ms ease;
     padding: 10px;
 
+    a {
+      text-decoration: none;
+      color: ${({ theme }) => theme.color.primary};
+    }
+
     :hover {
       color: #34a1cd;
     }
@@ -58,7 +63,7 @@ const Header = () => (
     <nav>
       <ul>
         <li>
-          <Link>Blog</Link>
+          <Link to="/blog">Blog</Link>
         </li>
         <li>
           <Link>Kategorie</Link>

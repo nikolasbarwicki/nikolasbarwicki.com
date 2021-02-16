@@ -3,11 +3,11 @@ import styled from "styled-components"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { graphql } from "gatsby"
-import Footer from "../components/footer"
 import Container from "../components/container"
 import Heading from "../components/heading"
 import ArticleLink from "../components/articleLink"
 import CategoryLink from "../components/categoryLink"
+import EmailInput from "../components/emailInput"
 
 const Hero = styled.section`
   grid-column: 3 / span 4;
@@ -26,58 +26,7 @@ const Hero = styled.section`
     text-align: center;
     line-height: 1.6;
     color: ${({ theme }) => theme.color.secondary};
-    margin-bottom: 110px;
-  }
-
-  #newsletter {
-    background-color: ${({ theme }) => theme.color.background};
-    display: block;
-    width: 370px;
-    height: 54px;
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 7px;
-    margin-bottom: 38px;
-  }
-
-  #newsletter-submit {
-    background-color: ${({ theme }) => theme.color.primary};
-    color: ${({ theme }) => theme.color.white};
-    border: none;
-    height: 100%;
-    width: 131px;
-    border-radius: 15px;
-    font-size: 18px;
-    outline: none;
-    cursor: pointer;
-    letter-spacing: 1px;
-  }
-
-  #newsletter-email {
-    font-size: 18px;
-    border: none;
-    background: none;
-    color: ${({ theme }) => theme.color.primary};
-    height: 100%;
-    width: auto;
-    padding-left: 15px;
-    outline: none;
-
-    ::placeholder {
-      font-size: 18px;
-      font-family: "Karla", sans-serif;
-      color: ${({ theme }) => theme.color.lightText};
-    }
-  }
-
-  .newsletter-text {
-    font-size: 18px;
-
-    &__emoji {
-      margin-right: 5px;
-    }
+    margin-bottom: 70px;
   }
 `
 
@@ -85,16 +34,12 @@ const Latest = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 140px;
   margin-bottom: 60px;
 `
 
 const ArticlesWrapper = styled.div`
   width: 570px;
-`
-
-const StyledHeading = styled(Heading)`
-  text-align: left;
 `
 
 const CategoriesGrid = styled.div`
@@ -133,20 +78,7 @@ const IndexPage = ({ data }) => {
           Witaj na moim blogu. Lorem ipsum dolor sit amet, consectetur
           adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
         </span>
-        <form id="newsletter">
-          <input id="newsletter-email" type="email" placeholder="Adres email" />
-          <input id="newsletter-submit" type="submit" value="Zapisz" />
-        </form>
-        <span className="newsletter-text">
-          <span
-            className="newsletter-text__emoji"
-            role="img"
-            aria-label="Party popper emoji"
-          >
-            🎉
-          </span>
-          Dołącz do newslettera i poznawaj na bieżąco świat frontendu!
-        </span>
+        <EmailInput centered />
       </Hero>
 
       <Latest>
@@ -172,7 +104,7 @@ const IndexPage = ({ data }) => {
 
       <Categories>
         <Container>
-          <StyledHeading main="Kategorie" secondary="Blog" alignLeft />
+          <Heading main="Kategorie" secondary="Blog" alignLeft />
           <CategoriesGrid>
             <CategoryLink
               image={data.file.childImageSharp.fixed}
@@ -200,7 +132,7 @@ const IndexPage = ({ data }) => {
       </Categories>
 
       <Latest>
-        <StyledHeading main="Popularne artykuły" secondary="Blog" />
+        <Heading main="Popularne artykuły" secondary="Blog" />
         <ArticlesWrapper>
           <ArticleLink
             date="Styczeń 21, 2021"
@@ -219,8 +151,6 @@ const IndexPage = ({ data }) => {
           />
         </ArticlesWrapper>
       </Latest>
-
-      <Footer />
     </Layout>
   )
 }
