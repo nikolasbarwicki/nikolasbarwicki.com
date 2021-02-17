@@ -66,13 +66,13 @@ const Header = () => (
           <Link to="/blog">Blog</Link>
         </li>
         <li>
-          <Link>Kategorie</Link>
+          <Link to="/">Kategorie</Link>
         </li>
         <li>
-          <Link>Portfolio</Link>
+          <Link to="/">Portfolio</Link>
         </li>
         <li>
-          <Link>O mnie</Link>
+          <Link to="/about-me">O mnie</Link>
         </li>
       </ul>
     </nav>
