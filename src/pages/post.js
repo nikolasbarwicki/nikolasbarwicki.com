@@ -4,6 +4,7 @@ import Layout from "../components/layout"
 import { graphql } from "gatsby"
 import Img from "gatsby-image"
 import Callout from "../components/Callout"
+import Code from "../components/Code"
 
 const Heading = styled.section`
   width: 576px;
@@ -52,7 +53,7 @@ const Date = styled.span`
 
 const Content = styled.section`
   width: 576px;
-  margin: 0 auto;
+  margin: 0 auto 120px auto;
 `
 
 const H2 = styled.h2`
@@ -138,6 +139,19 @@ const Post = ({ data }) => {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
           cursus, ligula in blandit sagittis
         </Callout>
+        <Code />
+        <P>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+          cursus, ligula in blandit sagittis, arcu ligula tristique lorem, ut
+          mattis leo ligula posuere libero. Donec sit amet nunc felis. Morbi
+          placerat placerat maximus. Nunc at sagittis quam, sed ullamcorper
+          nisi. Curabitur nec odio nec odio hendrerit posuere eu ac purus. Morbi
+          sollicitudin sit amet lectus viverra egestas. Mauris lorem dui,
+          vestibulum eu massa ac, efficitur gravida enim. In dictum bibendum
+          velit nec suscipit. Donec aliquam fringilla est, ac viverra ante
+          gravida quis. Vivamus ultricies fringilla lectus a pharetra. Donec
+          rhoncus diam at massa pulvinar dapibus.
+        </P>
       </Content>
     </Layout>
   )
