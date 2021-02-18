@@ -74,6 +74,17 @@ const SkillHeading = styled.div`
   gap: 28px;
 `
 
+const SkillItem = styled.div`
+  padding: 40px;
+  border-radius: 20px;
+  transition: box-shadow 200ms ease-in;
+
+  :hover {
+    box-shadow: ${({ theme }) => theme.shadow.card};
+    transition: box-shadow 200ms ease-in;
+  }
+`
+
 const SkillList = styled.ul`
   margin-top: 30px;
   margin-left: 40px;
@@ -119,7 +130,7 @@ const AboutMe = ({ data }) => {
       <Skills>
         <Heading main="Moje umiejętności" secondary="O mnie" />
         <SkillsGrid>
-          <div>
+          <SkillItem>
             <SkillHeading>
               <FrontendIcon />
               <h3>Frontend</h3>
@@ -129,7 +140,7 @@ const AboutMe = ({ data }) => {
               <li>CSS (styled-components)</li>
               <li>Typescript</li>
             </SkillList>
-          </div>
+          </SkillItem>
           <div>
             <SkillHeading>
               <BackendIcon />

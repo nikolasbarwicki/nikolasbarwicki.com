@@ -4,13 +4,22 @@ import styled from "styled-components"
 import GithubIcon from "../assets/icons/github-icon.svg"
 import DribbbleIcon from "../assets/icons/dribbble-icon.svg"
 import LinkedInIcon from "../assets/icons/linkedin-icon.svg"
+import PersonalLogo from "../assets/icons/personal-logo.svg"
+
+const StyledLogo = styled(PersonalLogo)`
+  width: 40px;
+`
+
+const StyledLink = styled(Link)`
+  width: 165px;
+`
 
 const Wrapper = styled.header`
   max-width: 1172px;
   margin: 0 auto;
   margin-top: 51px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   position: relative;
 
@@ -40,9 +49,6 @@ const Wrapper = styled.header`
   }
 
   div {
-    position: absolute;
-    right: 0;
-
     a {
       margin-left: 15px;
 
@@ -60,16 +66,16 @@ const Wrapper = styled.header`
 
 const Header = () => (
   <Wrapper>
+    <StyledLink to="/">
+      <StyledLogo />
+    </StyledLink>
     <nav>
       <ul>
         <li>
           <Link to="/blog">Blog</Link>
         </li>
         <li>
-          <Link to="/">Kategorie</Link>
-        </li>
-        <li>
-          <Link to="/">Portfolio</Link>
+          <Link to="/portfolio">Portfolio</Link>
         </li>
         <li>
           <Link to="/about-me">O mnie</Link>
