@@ -56,16 +56,16 @@ const ImageWrapper = styled.div`
 `
 
 const Skills = styled.section`
-  width: 876px;
+  width: 900px;
   margin: 140px auto 0 auto;
 `
 
 const SkillsGrid = styled.div`
   margin: 105px 0 200px;
   display: grid;
-  grid-template-columns: repeat(2, 50%);
+  grid-template-columns: repeat(2, calc(50% - 12px));
   grid-column-gap: 24px;
-  grid-row-gap: 120px;
+  grid-row-gap: 30px;
 `
 
 const SkillHeading = styled.div`
@@ -136,44 +136,46 @@ const AboutMe = ({ data }) => {
               <h3>Frontend</h3>
             </SkillHeading>
             <SkillList>
-              <li>HTML</li>
-              <li>CSS (styled-components)</li>
-              <li>Typescript</li>
+              <li>HTML, CSS (styled-components)</li>
+              <li>Javascript (ESNext), Typescript</li>
+              <li>React, Redux, REST API</li>
+              <li>react-query, Formik</li>
+              <li>Gatsby</li>
             </SkillList>
           </SkillItem>
-          <div>
+          <SkillItem>
             <SkillHeading>
               <BackendIcon />
               <h3>Backend</h3>
             </SkillHeading>
             <SkillList>
-              <li>HTML</li>
-              <li>CSS (styled-components)</li>
-              <li>Typescript</li>
+              <li>Node.js, express.js</li>
+              <li>MongoDB, PostgreSQL</li>
+              <li>JWT, Redis</li>
             </SkillList>
-          </div>
-          <div>
+          </SkillItem>
+          <SkillItem>
             <SkillHeading>
               <OtherIcon />
               <h3>Inne</h3>
             </SkillHeading>
             <SkillList>
-              <li>HTML</li>
-              <li>CSS (styled-components)</li>
+              <li>ESLint</li>
+              <li>Prettier</li>
               <li>Typescript</li>
             </SkillList>
-          </div>
-          <div>
+          </SkillItem>
+          <SkillItem>
             <SkillHeading>
               <SoftIcon />
               <h3>Umiejętności miękkie</h3>
             </SkillHeading>
             <SkillList>
-              <li>HTML</li>
-              <li>CSS (styled-components)</li>
+              <li>Umiejętność pracy w zespole</li>
+              <li>Proaktywność</li>
               <li>Typescript</li>
             </SkillList>
-          </div>
+          </SkillItem>
         </SkillsGrid>
       </Skills>
     </Layout>
