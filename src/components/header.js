@@ -41,10 +41,12 @@ const Wrapper = styled.header`
     a {
       text-decoration: none;
       color: ${({ theme }) => theme.color.primary};
-    }
+      transition: color 200ms ease;
 
-    :hover {
-      color: #34a1cd;
+      :hover {
+        color: ${({ theme }) => theme.color.lightBlue};
+        transition: color 200ms ease;
+      }
     }
   }
 
@@ -83,14 +85,14 @@ const Header = () => (
       </ul>
     </nav>
     <div>
-      <a href="#">
+      <a href="https://github.com/nikolasbarwicki" target="_blank">
         <GithubIcon />
       </a>
-      <a href="#">
-        <DribbbleIcon />
-      </a>
-      <a href="#">
+      <a href="https://www.linkedin.com/in/nikolas-barwicki/" target="_blank">
         <LinkedInIcon />
+      </a>
+      <a href="https://dribbble.com/barwicki" target="_blank">
+        <DribbbleIcon />
       </a>
     </div>
   </Wrapper>
