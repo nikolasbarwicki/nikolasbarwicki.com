@@ -86,8 +86,6 @@ const components = {
 }
 
 const Post = ({ data }) => {
-  console.log(data)
-
   const {
     mdx: { frontmatter, body },
     timeToRead,

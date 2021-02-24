@@ -68,7 +68,7 @@ const categories = ({ data }) => {
               <CategoryLink
                 image={getCategoryImage(fieldValue)}
                 text={fieldValue}
-                url={fieldValue}
+                url={`/blog/category/${fieldValue}`}
               />
             ))}
           </CategoriesGrid>

@@ -88,6 +88,11 @@ const PurpleBackground = styled.div`
 `
 
 const IndexPage = ({ data }) => {
+  const getCategoryImage = name => {
+    return data.categoriesImg.nodes.filter(img => img.name.includes(name))[0]
+      .childImageSharp.fixed
+  }
+
   return (
     <Layout>
       <SEO title="Home" />
@@ -118,26 +123,13 @@ const IndexPage = ({ data }) => {
         <Container>
           <Heading main="Kategorie" secondary="Blog" alignLeft />
           <CategoriesGrid>
-            <CategoryLink
-              // image={data.file.childImageSharp.fixed}
-              text="React"
-              url="/xd"
-            />
-            <CategoryLink
-              // image={data.file.childImageSharp.fixed}
-              text="React"
-              url="/xd"
-            />
-            <CategoryLink
-              // image={data.file.childImageSharp.fixed}
-              text="React"
-              url="/xd"
-            />
-            <CategoryLink
-              // image={data.file.childImageSharp.fixed}
-              text="React"
-              url="/xd"
-            />
+            {data.categories.group.map(({ fieldValue }) => (
+              <CategoryLink
+                image={getCategoryImage(fieldValue)}
+                text={fieldValue}
+                url={`/blog/category/${fieldValue}`}
+              />
+            ))}
           </CategoriesGrid>
         </Container>
         <PurpleBackground />
@@ -168,13 +160,28 @@ export const query = graphql`
         }
       }
     }
-    allMdx(sort: { order: DESC, fields: frontmatter___date }) {
+    allMdx(sort: { order: DESC, fields: frontmatter___date }, limit: 3) {
       nodes {
         frontmatter {
           date(locale: "PL", formatString: "MMM DD")
           slug
           title
         }
+      }
+    }
+    categoriesImg: allFile(filter: { name: { regex: "/cat_/" } }) {
+      nodes {
+        name
+        childImageSharp {
+          fixed(width: 65) {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
+    }
+    categories: allMdx {
+      group(field: frontmatter___category, limit: 4) {
+        fieldValue
       }
     }
   }

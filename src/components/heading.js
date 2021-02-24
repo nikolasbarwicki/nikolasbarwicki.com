@@ -8,6 +8,7 @@ const Wrapper = styled.div`
     font-size: 6.4rem;
     margin-top: 1rem;
     margin-bottom: ${p => (p.noMargin ? 0 : "5.5rem")};
+    text-transform: capitalize;
   }
 
   span {
