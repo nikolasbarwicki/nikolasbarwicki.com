@@ -23,6 +23,7 @@ const Wrapper = styled(Link)`
     font-size: 18px;
     font-weight: 700;
     margin: 20px 0 25px;
+    text-transform: capitalize;
   }
 
   :hover {

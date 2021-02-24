@@ -1,6 +1,6 @@
 import { Link } from "gatsby"
 import React from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import GithubIcon from "../assets/icons/github-icon.svg"
 import DribbbleIcon from "../assets/icons/dribbble-icon.svg"
 import LinkedInIcon from "../assets/icons/linkedin-icon.svg"
@@ -163,6 +163,9 @@ const Header = () => {
           <ul>
             <li>
               <Link to="/blog">Blog</Link>
+            </li>
+            <li>
+              <Link to="/categories">Kategorie</Link>
             </li>
             <li>
               <Link to="/portfolio">Portfolio</Link>

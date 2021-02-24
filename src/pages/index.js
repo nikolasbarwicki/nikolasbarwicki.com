@@ -119,22 +119,22 @@ const IndexPage = ({ data }) => {
           <Heading main="Kategorie" secondary="Blog" alignLeft />
           <CategoriesGrid>
             <CategoryLink
-              image={data.file.childImageSharp.fixed}
+              // image={data.file.childImageSharp.fixed}
               text="React"
               url="/xd"
             />
             <CategoryLink
-              image={data.file.childImageSharp.fixed}
+              // image={data.file.childImageSharp.fixed}
               text="React"
               url="/xd"
             />
             <CategoryLink
-              image={data.file.childImageSharp.fixed}
+              // image={data.file.childImageSharp.fixed}
               text="React"
               url="/xd"
             />
             <CategoryLink
-              image={data.file.childImageSharp.fixed}
+              // image={data.file.childImageSharp.fixed}
               text="React"
               url="/xd"
             />

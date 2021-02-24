@@ -6,7 +6,6 @@ import Heading from "../components/heading"
 import Layout from "../components/layout"
 import Container from "../components/container"
 import EmailInput from "../components/emailInput"
-import CategoryLink from "../components/categoryLink"
 
 const ArticlesWrapper = styled.section`
   width: 57rem;
@@ -24,7 +23,7 @@ const ArticlesWrapper = styled.section`
 
 const Newsletter = styled.section`
   position: relative;
-  padding-top: 70px;
+  padding: 70px 0;
 
   @media screen and (max-width: 600px) {
     margin: 0 -2rem;
@@ -43,50 +42,8 @@ const PurpleBackground = styled.div`
   height: 252px;
 `
 
-const PinkBackground = styled.div`
-  position: absolute;
-  border-radius: 50px 0 0 50px;
-  right: 0%;
-  top: 0%;
-  left: auto;
-  bottom: auto;
-  z-index: -1;
-  width: 60%;
-  background-color: ${({ theme }) => theme.color.backgroundPink};
-  height: 492px;
-
-  @media screen and (max-width: 600px) {
-    width: 80%;
-    height: 90vh;
-    transform: translateY(-3rem);
-  }
-`
-
 const StyledHeading = styled(Heading)`
   text-align: left;
-`
-
-const CategoriesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 30px;
-  margin-top: 41px;
-
-  @media screen and (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
-`
-
-const Categories = styled.section`
-  position: relative;
-  padding-top: 70px;
-  margin-top: 120px;
-  margin-bottom: 170px;
-
-  @media screen and (max-width: 600px) {
-    margin: 0 -2rem;
-    padding: 0 2rem;
-  }
 `
 
 const EmailWrapper = styled.div`
@@ -123,8 +80,6 @@ const NewsletterFlex = styled.div`
 `
 
 const Blog = ({ data }) => {
-  console.log(data)
-
   return (
     <Layout>
       <ArticlesWrapper>
@@ -152,35 +107,12 @@ const Blog = ({ data }) => {
         </Container>
         <PurpleBackground />
       </Newsletter>
-
-      <Categories>
-        <Container>
-          <StyledHeading main="Kategorie" secondary="Blog" alignLeft />
-          <CategoriesGrid>
-            {[...Array(8)].map(el => (
-              <CategoryLink
-                image={data.file.childImageSharp.fixed}
-                text="React"
-                url="/xd"
-              />
-            ))}
-          </CategoriesGrid>
-        </Container>
-        <PinkBackground />
-      </Categories>
     </Layout>
   )
 }
 
 export const query = graphql`
   {
-    file(relativePath: { eq: "react.png" }) {
-      childImageSharp {
-        fixed(width: 65) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
     allMdx(sort: { order: DESC, fields: frontmatter___date }) {
       nodes {
         frontmatter {
@@ -194,20 +126,3 @@ export const query = graphql`
 `
 
 export default Blog
-
-// query ($tag: String) {
-//   articles: allMdx(filter: {frontmatter: {category: {in: [$tag]}}}) {
-//     nodes {
-//       frontmatter {
-//         title
-//         slug
-//         date
-//       }
-//     }
-//   }
-//   tags: allMdx {
-//     group(field: frontmatter___category) {
-// 			tag: fieldValue
-//   	}
-//   }
-// }
