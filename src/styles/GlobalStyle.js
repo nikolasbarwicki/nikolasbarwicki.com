@@ -26,9 +26,25 @@ export const GlobalStyle = createGlobalStyle`
     footer, header, hgroup, menu, nav, section {
         display: block;
     }
+
+  html {
+    font-size: 62.5%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    @media screen and (max-width: 600px) {
+      font-size: 50%;
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: 55%;
+    }
+  }
+
     body {
         line-height: 1;
     }
+
     ol, ul {
         list-style: none;
     }

@@ -5,6 +5,8 @@ import { graphql } from "gatsby"
 import Img from "gatsby-image"
 import Callout from "../components/Callout"
 import Code from "../components/Code"
+import { MDXRenderer } from "gatsby-plugin-mdx"
+import { MDXProvider } from "@mdx-js/react"
 
 const Heading = styled.section`
   width: 57.6rem;
@@ -76,14 +78,26 @@ const P = styled.p`
   margin-bottom: 3.5rem;
 `
 
+const components = {
+  pre: Code,
+  Callout,
+  p: P,
+  h2: H2,
+}
+
 const Post = ({ data }) => {
+  console.log(data)
+
+  const {
+    mdx: { frontmatter, body },
+    timeToRead,
+  } = data
+
   return (
     <Layout>
       <Heading>
-        <Category>Typescript</Category>
-        <Title>
-          Using Shortcuts and serverless to build a personal Apple Health API
-        </Title>
+        <Category>{frontmatter.category}</Category>
+        <Title>{frontmatter.title}</Title>
         <DetailsWrapper>
           <Img fixed={data.file.childImageSharp.fixed} />
           <DetailsTextWrapper>
@@ -93,7 +107,10 @@ const Post = ({ data }) => {
         </DetailsWrapper>
       </Heading>
       <Content>
-        <H2>Umiejętności miękkie</H2>
+        <MDXProvider components={components}>
+          <MDXRenderer>{body}</MDXRenderer>
+        </MDXProvider>
+        {/* <H2>Umiejętności miękkie</H2>
         <P>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
           cursus, ligula in blandit sagittis, arcu ligula tristique lorem, ut
@@ -159,14 +176,24 @@ const Post = ({ data }) => {
           velit nec suscipit. Donec aliquam fringilla est, ac viverra ante
           gravida quis. Vivamus ultricies fringilla lectus a pharetra. Donec
           rhoncus diam at massa pulvinar dapibus.
-        </P>
+        </P> */}
       </Content>
     </Layout>
   )
 }
 
-export const query = graphql`
-  {
+export const pageQuery = graphql`
+  query($slug: String!) {
+    mdx(frontmatter: { slug: { eq: $slug } }) {
+      frontmatter {
+        slug
+        title
+        category
+        date(locale: "PL", formatString: "DD MMMM YYYY")
+      }
+      body
+      timeToRead
+    }
     file(relativePath: { eq: "profile-big.png" }) {
       childImageSharp {
         fixed(width: 40, quality: 100, webpQuality: 100) {

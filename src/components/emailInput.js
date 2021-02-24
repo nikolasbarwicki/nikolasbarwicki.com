@@ -14,14 +14,14 @@ const Wrapper = styled.div`
   #newsletter {
     background-color: ${({ theme }) => theme.color.background};
     display: block;
-    width: 370px;
-    height: 54px;
-    border-radius: 20px;
+    width: 37rem;
+    height: 5.4rem;
+    border-radius: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 7px;
-    margin-bottom: 38px;
+    padding: 0.7rem;
+    margin-bottom: 3.8rem;
   }
 
   #newsletter-submit {
@@ -29,36 +29,36 @@ const Wrapper = styled.div`
     color: ${({ theme }) => theme.color.white};
     border: none;
     height: 100%;
-    width: 131px;
-    border-radius: 15px;
-    font-size: 18px;
+    width: 13.1rem;
+    border-radius: 1.5rem;
+    font-size: 1.8rem;
     outline: none;
     cursor: pointer;
     letter-spacing: 1px;
   }
 
   #newsletter-email {
-    font-size: 18px;
+    font-size: 1.8rem;
     border: none;
     background: none;
     color: ${({ theme }) => theme.color.primary};
     height: 100%;
     width: auto;
-    padding-left: 15px;
+    padding-left: 1.5rem;
     outline: none;
 
     ::placeholder {
-      font-size: 18px;
+      font-size: 1.8rem;
       font-family: "Karla", sans-serif;
       color: ${({ theme }) => theme.color.lightText};
     }
   }
 
   .newsletter-text {
-    font-size: 18px;
+    font-size: 1.8rem;
 
     &__emoji {
-      margin-right: 5px;
+      margin-right: 0.5rem;
     }
   }
 `

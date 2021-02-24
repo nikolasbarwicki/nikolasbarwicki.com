@@ -8,6 +8,7 @@ export const theme = {
     grayText: "#B4B2C3",
     borderActive: "#F8979B",
     lightBlue: "#34a1cd",
+    paleBlue: "#e9f9ff",
     backgroundPurple: "#F3F3FC",
     backgroundBlue: "#E9F9FF",
     backgroundPink: "#FFF5F6",

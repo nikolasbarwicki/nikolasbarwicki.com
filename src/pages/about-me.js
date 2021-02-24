@@ -11,12 +11,17 @@ import SoftIcon from "../assets/icons/soft-icon.svg"
 
 const About = styled.section`
   position: relative;
-  padding-top: 150px;
+  padding-top: 15rem;
+
+  @media screen and (max-width: 600px) {
+    margin: 0 -2rem;
+    padding: 15rem 2rem 0 2rem;
+  }
 `
 
 const PurpleBackground = styled.div`
-  margin-top: 155px;
-  border-radius: 0 50px 50px 0;
+  margin-top: 15.5rem;
+  border-radius: 0 5rem 5rem 0;
   position: absolute;
   left: 0%;
   top: 0%;
@@ -26,28 +31,38 @@ const PurpleBackground = styled.div`
   width: 50%;
   background-color: ${({ theme }) => theme.color.backgroundPurple};
   height: 510px;
+
+  @media screen and (max-width: 600px) {
+    width: 80%;
+    height: 50vh;
+    top: -5rem;
+  }
 `
 
 const Container = styled.div`
   margin: 0 auto;
-  max-width: 1170px;
+  max-width: 117rem;
   display: grid;
   align-items: center;
   grid-template-columns: repeat(2, 50%);
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 const Text = styled.p`
-  font-size: 18px;
+  font-size: 1.8rem;
   font-weight: 400;
   color: ${p => p.theme.color.primary};
-  width: 500px;
+  width: 50rem;
   line-height: 1.8;
 `
 
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 3rem;
 `
 
 const ImageWrapper = styled.div`
@@ -56,28 +71,42 @@ const ImageWrapper = styled.div`
 `
 
 const Skills = styled.section`
-  width: 900px;
-  margin: 140px auto 0 auto;
+  width: 90rem;
+  margin: 14rem auto 0 auto;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `
 
 const SkillsGrid = styled.div`
-  margin: 105px 0 200px;
+  margin: 10.5rem 0 20rem;
   display: grid;
   grid-template-columns: repeat(2, calc(50% - 12px));
-  grid-column-gap: 24px;
-  grid-row-gap: 30px;
+  grid-column-gap: 2.4rem;
+  grid-row-gap: 3rem;
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+    grid-row-gap: 5rem;
+    margin: 10.5rem 0 10rem;
+  }
 `
 
 const SkillHeading = styled.div`
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 2.8rem;
 `
 
 const SkillItem = styled.div`
-  padding: 40px;
-  border-radius: 20px;
+  padding: 4rem;
+  border-radius: 2rem;
   transition: box-shadow 200ms ease-in;
+
+  @media screen and (max-width: 600px) {
+    padding: 1rem;
+  }
 
   :hover {
     box-shadow: ${({ theme }) => theme.shadow.card};
@@ -86,15 +115,15 @@ const SkillItem = styled.div`
 `
 
 const SkillList = styled.ul`
-  margin-top: 30px;
-  margin-left: 40px;
+  margin-top: 3rem;
+  margin-left: 4rem;
 
   li {
     list-style: initial;
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 700;
     color: ${p => p.theme.color.secondary};
-    margin: 9px 0;
+    margin: 0.9rem 0;
   }
 `
 

@@ -5,21 +5,27 @@ import MailIcon from "../assets/icons/mail.svg"
 import PersonalLogo from "../assets/icons/personal-logo.svg"
 
 const StyledLogo = styled(PersonalLogo)`
-  width: 40px;
+  width: 4rem;
 `
 
 const Wrapper = styled.footer`
-  width: 1170px;
+  width: 117rem;
   margin: 0 auto;
-  border-radius: 20px;
+  border-radius: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
   height: 100%;
-  margin-bottom: 70px;
+  margin-bottom: 7rem;
   background-color: ${({ theme }) => theme.color.backgroundBlue};
-  height: 390px;
+  height: 39rem;
+
+  @media screen and (max-width: 600px) {
+    margin-bottom: 0;
+    width: 100%;
+    border-radius: 0;
+  }
 
   div {
     text-align: center;
@@ -27,8 +33,8 @@ const Wrapper = styled.footer`
 
   ul {
     display: flex;
-    gap: 35px;
-    font-size: 14px;
+    gap: 3.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
   }
 `
@@ -36,12 +42,18 @@ const Wrapper = styled.footer`
 const Heading = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 70px;
+  margin-top: 7rem;
 `
 
 const MailWrapper = styled.div`
   display: flex;
   align-items: center;
+
+  @media screen and (max-width: 600px) {
+    svg {
+      width: 5rem;
+    }
+  }
 `
 
 const Navigation = styled.nav`
@@ -49,28 +61,40 @@ const Navigation = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+
+  @media screen and (max-width: 600px) {
+    width: 90%;
+  }
 `
 
 const MailText = styled.span`
-  margin-left: 10px;
+  margin-left: 1rem;
   font-weight: 700;
   color: ${({ theme }) => theme.color.grayText};
-  font-size: 28px;
+  font-size: 2.8rem;
   letter-spacing: -1px;
+
+  @media screen and (max-width: 600px) {
+    font-size: 2rem;
+  }
 `
 const ContactText = styled.span`
   font-weight: 700;
   color: ${({ theme }) => theme.color.grayText};
-  font-size: 16px;
+  font-size: 1.6rem;
   letter-spacing: 1.5px;
 `
 
 const GotQuestion = styled.span`
   font-weight: 700;
-  margin: 15px 0 40px;
+  margin: 1.5rem 0 4rem;
   color: ${({ theme }) => theme.color.primary};
-  font-size: 38px;
+  font-size: 3.8rem;
+
+  @media screen and (max-width: 600px) {
+    font-size: 3rem;
+  }
 `
 
 const Footer = () => (

@@ -11,22 +11,23 @@ import EmailInput from "../components/emailInput"
 
 const Hero = styled.section`
   grid-column: 3 / span 4;
-  margin-top: 170px;
+  margin-top: 17rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
   h1 {
-    margin-bottom: 30px;
+    margin-bottom: 3rem;
   }
 
   .hero-text {
-    width: 350px;
+    font-size: 1.6rem;
+    width: 35rem;
     text-align: center;
     line-height: 1.6;
     color: ${({ theme }) => theme.color.secondary};
-    margin-bottom: 70px;
+    margin-bottom: 7rem;
   }
 `
 
@@ -34,28 +35,41 @@ const Latest = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 140px;
-  margin-bottom: 60px;
+  margin-top: 14rem;
+  margin-bottom: 6rem;
 `
 
 const ArticlesWrapper = styled.div`
-  width: 570px;
+  width: 57rem;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `
 
 const CategoriesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 30px;
+  grid-gap: 3rem;
   margin-top: 41px;
+
+  @media screen and (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 const Categories = styled.section`
   position: relative;
-  padding-top: 70px;
+  padding-top: 7rem;
+  padding: 7rem 2rem 0 2rem;
 `
 
 const PurpleBackground = styled.div`
-  border-radius: 0 50px 50px 0;
+  border-radius: 0 5rem 5rem 0;
   position: absolute;
   left: 0%;
   top: 0%;
@@ -64,7 +78,13 @@ const PurpleBackground = styled.div`
   z-index: -1;
   width: 60%;
   background-color: ${({ theme }) => theme.color.backgroundPurple};
-  height: 310px;
+  height: 31rem;
+
+  @media screen and (max-width: 600px) {
+    width: 80%;
+    height: 90vh;
+    margin: 0 -2rem;
+  }
 `
 
 const IndexPage = ({ data }) => {
@@ -84,21 +104,13 @@ const IndexPage = ({ data }) => {
       <Latest>
         <Heading main="Najnowsze artykuły" secondary="Blog" />
         <ArticlesWrapper>
-          <ArticleLink
-            date="Styczeń 21, 2021"
-            title="Tytuł artykułu"
-            url="/xd"
-          />
-          <ArticleLink
-            date="Styczeń 21, 2021"
-            title="Tytuł artykułu"
-            url="/xd"
-          />
-          <ArticleLink
-            date="Styczeń 21, 2021"
-            title="Tytuł artykułu"
-            url="/xd"
-          />
+          {data.allMdx.nodes.map(({ frontmatter }) => (
+            <ArticleLink
+              date={frontmatter.date}
+              title={frontmatter.title}
+              url={`/blog/${frontmatter.slug}`}
+            />
+          ))}
         </ArticlesWrapper>
       </Latest>
 
@@ -134,21 +146,13 @@ const IndexPage = ({ data }) => {
       <Latest>
         <Heading main="Popularne artykuły" secondary="Blog" />
         <ArticlesWrapper>
-          <ArticleLink
-            date="Styczeń 21, 2021"
-            title="Tytuł artykułu"
-            url="/xd"
-          />
-          <ArticleLink
-            date="Styczeń 21, 2021"
-            title="Tytuł artykułu"
-            url="/xd"
-          />
-          <ArticleLink
-            date="Styczeń 21, 2021"
-            title="Tytuł artykułu"
-            url="/xd"
-          />
+          {data.allMdx.nodes.map(({ frontmatter }) => (
+            <ArticleLink
+              date={frontmatter.date}
+              title={frontmatter.title}
+              url={`/blog/${frontmatter.slug}`}
+            />
+          ))}
         </ArticlesWrapper>
       </Latest>
     </Layout>
@@ -161,6 +165,15 @@ export const query = graphql`
       childImageSharp {
         fixed(width: 65) {
           ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    allMdx(sort: { order: DESC, fields: frontmatter___date }) {
+      nodes {
+        frontmatter {
+          date(locale: "PL", formatString: "MMM DD")
+          slug
+          title
         }
       }
     }
