@@ -1,10 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import Layout from "../components/layout"
 import CategoryLink from "../components/categoryLink"
-import Heading from "../components/heading"
 import Container from "../components/container"
-import Img from "gatsby-image"
+import Heading from "../components/heading"
+import Layout from "../components/layout"
 
 const PinkBackground = styled.div`
   position: absolute;
@@ -47,7 +46,7 @@ const Categories = styled.section`
   margin-bottom: 170px;
 
   @media screen and (max-width: 600px) {
-    margin: 0 -2rem;
+    margin: 10rem -2rem;
     padding: 0 2rem;
   }
 `

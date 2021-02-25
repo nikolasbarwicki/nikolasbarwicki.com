@@ -168,9 +168,6 @@ const Header = () => {
               <Link to="/categories">Kategorie</Link>
             </li>
             <li>
-              <Link to="/portfolio">Portfolio</Link>
-            </li>
-            <li>
               <Link to="/about-me">O mnie</Link>
             </li>
           </ul>
@@ -209,7 +206,7 @@ const Header = () => {
             <Link to="/blog">Blog</Link>
           </li>
           <li>
-            <Link to="/portfolio">Portfolio</Link>
+            <Link to="/categories">Kategorie</Link>
           </li>
           <li>
             <Link to="/about-me">O mnie</Link>

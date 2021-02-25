@@ -13,7 +13,7 @@ const Wrapper = styled.article`
   cursor: pointer;
 
   @media screen and (max-width: 600px) {
-    margin-bottom: 1rem;
+    margin-bottom: ${p => (p.sm ? "4rem" : "1rem")};
   }
 
   :hover {
@@ -31,7 +31,7 @@ const Wrapper = styled.article`
     color: ${({ theme }) => theme.color.primary};
 
     @media screen and (max-width: 600px) {
-      padding: 0 1.8rem;
+      padding: 0;
     }
   }
 
@@ -55,6 +55,10 @@ const Wrapper = styled.article`
 
       ::first-letter {
         text-transform: uppercase;
+      }
+
+      @media screen and (max-width: 600px) {
+        margin-bottom: 1rem;
       }
     }
   }

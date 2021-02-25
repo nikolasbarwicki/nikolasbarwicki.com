@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
 import Highlight, { defaultProps } from "prism-react-renderer"
 import theme from "prism-react-renderer/themes/nightOwl"
+import React from "react"
+import styled from "styled-components"
 
 const exampleCode = `
 import React, { useState } from "react";
@@ -28,18 +28,11 @@ const Pre = styled.pre`
   font-family: monospace;
   font-size: 16px;
   font-weight: 700;
+  overflow-x: scroll;
 `
 
 const Line = styled.div`
   display: table-row;
-`
-
-const LineNo = styled.span`
-  display: table-cell;
-  text-align: right;
-  padding-right: 1em;
-  user-select: none;
-  opacity: 0.5;
 `
 
 const LineContent = styled.span`

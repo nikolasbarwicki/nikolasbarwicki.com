@@ -14,6 +14,10 @@ const ArticlesWrapper = styled.section`
   h4 {
     font-size: 4.2rem;
     margin-bottom: 3rem;
+
+    @media screen and (max-width: 600px) {
+      margin-top: 10rem;
+    }
   }
 
   @media screen and (max-width: 600px) {
@@ -23,10 +27,11 @@ const ArticlesWrapper = styled.section`
 
 const Newsletter = styled.section`
   position: relative;
-  padding: 70px 0;
+  padding: 7rem 0;
 
   @media screen and (max-width: 600px) {
     margin: 0 -2rem;
+    padding: 7rem 0 0;
   }
 `
 
