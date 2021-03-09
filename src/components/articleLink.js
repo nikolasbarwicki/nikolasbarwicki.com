@@ -1,16 +1,23 @@
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link } from "gatsby"
 import React from "react"
 import styled from "styled-components"
-import { Link } from "gatsby"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
+import { device } from "../styles/breakpoint"
 
 const Wrapper = styled.article`
-  width: 100%;
+  width: calc(100% - 4rem);
   padding: ${p => (p.sm ? "1.7rem 0" : "4rem 0")};
   border-radius: 2rem;
   margin-bottom: 4.3rem;
   transition: box-shadow 200ms ease-in;
   cursor: pointer;
+  margin: 0 2rem;
+
+  ${device.lg} {
+    width: 64rem;
+    margin: 0 auto 4rem auto;
+  }
 
   @media screen and (max-width: 600px) {
     margin-bottom: ${p => (p.sm ? "4rem" : "1rem")};

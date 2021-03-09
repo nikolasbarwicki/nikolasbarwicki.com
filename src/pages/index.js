@@ -1,13 +1,14 @@
+import { graphql } from "gatsby"
 import React from "react"
 import styled from "styled-components"
-import Layout from "../components/layout"
-import SEO from "../components/seo"
-import { graphql } from "gatsby"
-import Container from "../components/container"
-import Heading from "../components/heading"
 import ArticleLink from "../components/articleLink"
 import CategoryLink from "../components/categoryLink"
+import Container from "../components/container"
 import EmailInput from "../components/emailInput"
+import Heading from "../components/heading"
+import Layout from "../components/layout"
+import SEO from "../components/seo"
+import { device } from "../styles/breakpoint"
 
 const Hero = styled.section`
   grid-column: 3 / span 4;
@@ -35,37 +36,38 @@ const Latest = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 14rem;
-  margin-bottom: 6rem;
+  margin: 14rem -2rem 6rem -2rem;
 `
 
 const ArticlesWrapper = styled.div`
-  width: 57rem;
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
+  /* width: 57rem; */
+  width: 100%;
+  margin: 0 auto;
 `
 
 const CategoriesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   grid-gap: 3rem;
-  margin-top: 41px;
+  margin-top: 4rem;
 
-  @media screen and (max-width: 900px) {
+  ${device.md} {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media screen and (max-width: 600px) {
-    grid-template-columns: 1fr;
+  ${device.lg} {
+    grid-template-columns: repeat(4, 1fr);
   }
 `
 
 const Categories = styled.section`
   position: relative;
-  padding-top: 7rem;
   padding: 7rem 2rem 0 2rem;
+  margin: 0 -2rem;
+
+  ${device.md} {
+    padding: 7rem 4rem 0 4rem;
+  }
 `
 
 const PurpleBackground = styled.div`
@@ -78,16 +80,16 @@ const PurpleBackground = styled.div`
   z-index: -1;
   width: 60%;
   background-color: ${({ theme }) => theme.color.backgroundPurple};
-  height: 31rem;
+  height: 80vh;
 
-  @media screen and (max-width: 600px) {
-    width: 80%;
-    height: 90vh;
-    margin: 0 -2rem;
+  ${device.md} {
+    height: 33rem;
   }
 `
 
 const IndexPage = ({ data }) => {
+  console.log(device.md)
+
   const getCategoryImage = name => {
     return data.categoriesImg.nodes.filter(img => img.name.includes(name))[0]
       .childImageSharp.fixed

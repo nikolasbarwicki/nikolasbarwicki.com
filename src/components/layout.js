@@ -1,19 +1,14 @@
-import React from "react"
+import { graphql, useStaticQuery } from "gatsby"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
-import styled from "styled-components"
-
-import Header from "./header"
-import Footer from "./footer"
-
+import React from "react"
+import styled, { ThemeProvider } from "styled-components"
 import { GlobalStyle } from "../styles/GlobalStyle"
-import { ThemeProvider } from "styled-components"
 import { theme } from "../styles/theme"
+import Footer from "./footer"
+import Header from "./header"
 
 const Container = styled.main`
-  @media screen and (max-width: 600px) {
-    padding: 0 2rem;
-  }
+  padding: 0 2rem;
 `
 
 const Layout = ({ children }) => {

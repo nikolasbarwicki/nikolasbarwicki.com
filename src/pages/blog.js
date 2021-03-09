@@ -1,38 +1,34 @@
+import { graphql } from "gatsby"
 import React from "react"
 import styled from "styled-components"
-import { graphql } from "gatsby"
 import ArticleLink from "../components/articleLink"
-import Heading from "../components/heading"
-import Layout from "../components/layout"
 import Container from "../components/container"
 import EmailInput from "../components/emailInput"
+import Heading from "../components/heading"
+import Layout from "../components/layout"
+import { device } from "../styles/breakpoint"
 
 const ArticlesWrapper = styled.section`
-  width: 57rem;
+  width: 100%;
   margin: 7rem auto;
+
+  ${device.md} {
+    width: 57rem;
+  }
 
   h4 {
     font-size: 4.2rem;
     margin-bottom: 3rem;
-
-    @media screen and (max-width: 600px) {
-      margin-top: 10rem;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
+    margin-top: 10rem;
   }
 `
 
 const Newsletter = styled.section`
   position: relative;
-  padding: 7rem 0;
+  /* padding: 7rem 0; */
 
-  @media screen and (max-width: 600px) {
-    margin: 0 -2rem;
-    padding: 7rem 0 0;
-  }
+  margin: 0 -2rem;
+  padding: 7rem 0 0;
 `
 
 const PurpleBackground = styled.div`
@@ -52,23 +48,31 @@ const StyledHeading = styled(Heading)`
 `
 
 const EmailWrapper = styled.div`
-  width: 45%;
   height: 25rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 3.5rem 4.5rem;
-  border-radius: 2.5rem;
   box-shadow: ${p => p.theme.shadow.email};
   background-color: ${p => p.theme.color.white};
+  display: flex;
+  flex-direction: column;
+  width: calc(100% + 4rem);
+  border-radius: 0;
+  padding: 0.5rem 2rem;
+  margin: 0 -2rem;
 
-  @media screen and (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    width: calc(100% + 4rem);
-    border-radius: 0;
-    padding: 0.5rem 2rem;
-    margin: 0 -2rem;
+  ${device.md} {
+    height: 22rem;
+    width: 50%;
+    margin-right: 1rem;
+    border-radius: 2.5rem;
+    padding: 1.5rem 2.5rem;
+  }
+
+  ${device.lg} {
+    width: 53rem;
+    margin: 0;
+    padding: 3.5rem 4.5rem;
   }
 `
 
@@ -76,11 +80,12 @@ const NewsletterFlex = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media screen and (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    padding: 0 2rem;
-    margin-bottom: 10rem;
+  flex-direction: column;
+  padding: 0 2rem;
+  margin-bottom: 10rem;
+
+  ${device.md} {
+    flex-direction: row;
   }
 `
 

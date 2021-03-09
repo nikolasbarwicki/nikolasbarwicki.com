@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import Layout from "../components/layout"
 import { graphql } from "gatsby"
 import Img from "gatsby-image"
+import React from "react"
+import styled from "styled-components"
 import Callout from "../components/Callout"
 import Code from "../components/Code"
+import Layout from "../components/layout"
 
 const Heading = styled.section`
   width: 57.6rem;

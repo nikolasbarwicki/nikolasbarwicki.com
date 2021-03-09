@@ -3,28 +3,29 @@ import React from "react"
 import styled from "styled-components"
 import MailIcon from "../assets/icons/mail.svg"
 import PersonalLogo from "../assets/icons/personal-logo.svg"
+import { device } from "../styles/breakpoint"
 
 const StyledLogo = styled(PersonalLogo)`
   width: 4rem;
 `
 
 const Wrapper = styled.footer`
-  width: 117rem;
   margin: 0 auto;
-  border-radius: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
   height: 100%;
-  margin-bottom: 7rem;
   background-color: ${({ theme }) => theme.color.backgroundBlue};
   height: 39rem;
+  margin-bottom: 0;
+  width: 100%;
+  border-radius: 0;
 
-  @media screen and (max-width: 600px) {
-    margin-bottom: 0;
-    width: 100%;
-    border-radius: 0;
+  ${device.lg} {
+    width: 117rem;
+    border-radius: 2rem;
+    margin-bottom: 7rem;
   }
 
   div {
@@ -48,23 +49,26 @@ const Heading = styled.div`
 const MailWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin: 0 auto;
 
-  @media screen and (max-width: 600px) {
-    svg {
+  svg {
+    width: 3rem;
+
+    ${device.md} {
       width: 5rem;
     }
   }
 `
 
 const Navigation = styled.nav`
-  width: 95%;
+  width: 90%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
 
-  @media screen and (max-width: 600px) {
-    width: 90%;
+  ${device.lg} {
+    max-width: 117rem;
   }
 `
 

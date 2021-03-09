@@ -1,22 +1,21 @@
-import React from "react"
-import styled from "styled-components"
-import Layout from "../components/layout"
-import Heading from "../components/heading"
 import { graphql } from "gatsby"
 import Img from "gatsby-image"
-import FrontendIcon from "../assets/icons/frontend-icon.svg"
+import React from "react"
+import styled from "styled-components"
 import BackendIcon from "../assets/icons/backend-icon.svg"
+import FrontendIcon from "../assets/icons/frontend-icon.svg"
 import OtherIcon from "../assets/icons/other-icon.svg"
 import SoftIcon from "../assets/icons/soft-icon.svg"
+import Dots from "../assets/images/dots.svg"
+import Heading from "../components/heading"
+import Layout from "../components/layout"
+import { device } from "../styles/breakpoint"
 
 const About = styled.section`
   position: relative;
-  padding-top: 15rem;
 
-  @media screen and (max-width: 600px) {
-    margin: 0 -2rem;
-    padding: 15rem 2rem 0 2rem;
-  }
+  margin: 0 -2rem;
+  padding: 15rem 2rem 0 2rem;
 `
 
 const PurpleBackground = styled.div`
@@ -24,30 +23,44 @@ const PurpleBackground = styled.div`
   border-radius: 0 5rem 5rem 0;
   position: absolute;
   left: 0%;
-  top: 0%;
   right: auto;
   bottom: auto;
   z-index: -1;
-  width: 50%;
   background-color: ${({ theme }) => theme.color.backgroundPurple};
-  height: 510px;
+  width: 80%;
+  height: 51rem;
+  top: -7rem;
 
-  @media screen and (max-width: 600px) {
-    width: 80%;
-    height: 50vh;
-    top: -5rem;
+  ${device.md} {
+    top: -4rem;
+    width: 50%;
+    height: 52rem;
+  }
+
+  ${device.lg} {
+    width: 58%;
+    top: 0;
+    height: 44rem;
   }
 `
 
 const Container = styled.div`
   margin: 0 auto;
-  max-width: 117rem;
-  display: grid;
-  align-items: center;
-  grid-template-columns: repeat(2, 50%);
+  display: flex;
+  flex-direction: column;
 
-  @media screen and (max-width: 600px) {
-    grid-template-columns: 1fr;
+  ${device.md} {
+    max-width: 117rem;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 50% 50%;
+  }
+
+  ${device.lg} {
+    max-width: 117rem;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 60% 40%;
   }
 `
 
@@ -55,19 +68,45 @@ const Text = styled.p`
   font-size: 1.8rem;
   font-weight: 400;
   color: ${p => p.theme.color.primary};
-  width: 50rem;
+  width: 100%;
   line-height: 1.8;
+
+  ${device.md} {
+    width: 90%;
+  }
 `
 
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  width: 100%;
 `
 
 const ImageWrapper = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
+  margin-top: 9rem;
+  position: relative;
+
+  ${device.md} {
+    width: 41rem;
+    margin-left: 5rem;
+    margin-top: 3rem;
+    width: calc(100vw - 4rem);
+  }
+`
+
+const StyledDots = styled(Dots)`
+  position: absolute;
+  z-index: 1;
+`
+
+const StyledImage = styled(Img)`
+  margin-top: 5rem;
+
+  ${device.md} {
+    margin-left: 5rem;
+    width: 36.5rem;
+  }
 `
 
 const Skills = styled.section`
@@ -150,7 +189,8 @@ const AboutMe = ({ data }) => {
             </Text>
           </TextWrapper>
           <ImageWrapper>
-            <Img fixed={data.file.childImageSharp.fixed} />
+            <StyledDots />
+            <StyledImage fluid={data.person.childImageSharp.fluid} />
           </ImageWrapper>
         </Container>
         <PurpleBackground />
@@ -213,9 +253,16 @@ const AboutMe = ({ data }) => {
 
 export const query = graphql`
   {
-    file(relativePath: { eq: "about.png" }) {
+    person: file(relativePath: { eq: "Group 43.png" }) {
       childImageSharp {
-        fixed(width: 520) {
+        fluid(maxWidth: 520, quality: 100) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    dots: file(relativePath: { eq: "dots.png" }) {
+      childImageSharp {
+        fixed(width: 160) {
           ...GatsbyImageSharpFixed
         }
       }

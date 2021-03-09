@@ -1,10 +1,11 @@
 import { Link } from "gatsby"
 import React from "react"
 import styled from "styled-components"
-import GithubIcon from "../assets/icons/github-icon.svg"
 import DribbbleIcon from "../assets/icons/dribbble-icon.svg"
+import GithubIcon from "../assets/icons/github-icon.svg"
 import LinkedInIcon from "../assets/icons/linkedin-icon.svg"
 import PersonalLogo from "../assets/icons/personal-logo.svg"
+import { device } from "../styles/breakpoint"
 
 const StyledLogo = styled(PersonalLogo)`
   width: 4rem;
@@ -27,12 +28,19 @@ const Wrapper = styled.header`
   background-color: ${p => (p.mobileNav ? p.theme.color.paleBlue : "#fff")};
   transition: all 200ms ease;
 
-  @media screen and (max-width: 600px) {
+  ${device.md} {
+    padding: 2rem 4rem;
+  }
+
+  ${device.lg} {
+    padding: 2rem;
   }
 
   nav {
-    @media screen and (max-width: 600px) {
-      display: none;
+    display: none;
+
+    ${device.md} {
+      display: block;
     }
   }
 
@@ -64,11 +72,14 @@ const Wrapper = styled.header`
 const NavCenter = styled.nav``
 
 const NavRight = styled.div`
+  display: flex;
+
   a {
     margin-left: 1.5rem;
+    display: none;
 
-    @media screen and (max-width: 600px) {
-      display: none;
+    ${device.md} {
+      display: block;
     }
 
     svg {
@@ -82,10 +93,10 @@ const NavRight = styled.div`
   }
 
   button {
-    display: none;
+    display: block;
 
-    @media screen and (max-width: 600px) {
-      display: block;
+    ${device.md} {
+      display: none;
     }
   }
 `
@@ -99,13 +110,13 @@ const MobileNav = styled.nav`
   padding: 0 3rem;
   font-size: 2rem;
   font-weight: 700;
-  display: none;
+
   transition: all 300ms ease;
   transform: ${({ mobileNav }) =>
     mobileNav ? "translateX(0)" : "translateY(calc(-100% - 9rem))"};
 
-  @media screen and (max-width: 600px) {
-    display: block;
+  ${device.md} {
+    display: none;
   }
 
   li {
