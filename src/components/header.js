@@ -16,7 +16,6 @@ const NavLeft = styled(Link)`
 `
 
 const Wrapper = styled.header`
-  position: absolute;
   z-index: 9999;
   max-width: 117.2rem;
   margin: 0 auto;

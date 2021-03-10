@@ -19,7 +19,7 @@ const Wrapper = styled(Link)`
   color: ${({ theme }) => theme.color.primary};
 
   span {
-    font-family: "Karla";
+    font-family: Karla, sans-serif;
     font-size: 18px;
     font-weight: 700;
     margin: 20px 0 25px;

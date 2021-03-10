@@ -40,7 +40,6 @@ const Latest = styled.section`
 `
 
 const ArticlesWrapper = styled.div`
-  /* width: 57rem; */
   width: 100%;
   margin: 0 auto;
 `
@@ -102,8 +101,8 @@ const IndexPage = ({ data }) => {
       <Hero>
         <h1>Cześć, tu Nikolas</h1>
         <span className="hero-text">
-          Witaj na moim blogu. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
+          Witaj na moim blogu. Jest to miejsce, w którym dokumentuje swój proces
+          nauki i przy okazji dziele się zdobytą wiedzą z innymi.
         </span>
         <EmailInput centered />
       </Hero>
@@ -162,7 +161,11 @@ export const query = graphql`
         }
       }
     }
-    allMdx(sort: { order: DESC, fields: frontmatter___date }, limit: 3) {
+    allMdx(
+      sort: { order: DESC, fields: frontmatter___date }
+      limit: 3
+      filter: { frontmatter: { published: { eq: true } } }
+    ) {
       nodes {
         frontmatter {
           date(locale: "PL", formatString: "MMM DD")

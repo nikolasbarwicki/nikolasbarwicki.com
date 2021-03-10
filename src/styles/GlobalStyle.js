@@ -18,8 +18,9 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
         border: 0;
         font-size: 100%;
-        font: inherit;
+        font-family: inherit;
         vertical-align: baseline;
+        line-height: 1;
     }
     /* HTML5 display-role reset for older browsers */
     article, aside, details, figcaption, figure,
@@ -40,10 +41,6 @@ export const GlobalStyle = createGlobalStyle`
       font-size: 55%;
     }
   }
-
-    body {
-        line-height: 1;
-    }
 
     ol, ul {
         list-style: none;
@@ -67,12 +64,12 @@ export const GlobalStyle = createGlobalStyle`
 
     body {
         -webkit-font-smoothing: antialiased;
-        font-family: "Karla", sans-serif;
+        font-family: Karla, sans-serif;
         color: ${props => props.theme.color.primary}
     }
 
     h1,h2,h3,h4,h5,h6 {
-        font-family: 'Space Grotesk';
+        font-family: Space Grotesk, sans-serif;
         font-weight: 700;
         letter-spacing: -3px;
     }
@@ -86,7 +83,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     h3 {
-        font-family: 'Karla';
+        font-family: Karla, sans-serif;
         font-size: 30px;
         letter-spacing: -2px;
     }

@@ -13,7 +13,6 @@ const Wrapper = styled.div`
 
   #newsletter {
     background-color: ${({ theme }) => theme.color.background};
-    display: block;
     width: 37rem;
     height: 5.4rem;
     border-radius: 2rem;
@@ -78,7 +77,7 @@ const EmailInput = ({ centered }) => {
         >
           🎉
         </span>
-        Dołącz do newslettera i poznawaj na bieżąco świat frontendu!
+        Dołącz do newslettera i poznawaj na bieżąco świat JS'a!
       </span>
     </Wrapper>
   )

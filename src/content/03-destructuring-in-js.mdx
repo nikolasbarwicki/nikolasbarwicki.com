@@ -1,0 +1,93 @@
+---
+title: "Destrukturyzacja w Javascript"
+slug: jak-stworzyc-bloga-dzieki-gatsby
+date: 2021-04-04
+category:
+published: false
+---
+
+1.  new way
+    const [one, two] = [1,2,3]
+
+old way
+const arr = [1,2,3]
+const one = arr[0]
+const two = arr[1]
+
+const arr = [1,2,3]
+const [one, two, three] = arr;
+console.log(one) // 1
+console.log(two) // 2
+
+//It’s called “destructuring assignment,” because it “destructurizes” by copying items into variables. But the array itself is not modified.
+
+//ignore values
+const [one,,three] = arr;
+
+//combine the ...rest
+const [one, ...rest] = arr;
+console.log(rest) // [2,3]
+
+/default = value
+const arr = [undefined, 2, 3];
+const [one = 1, two, three] = arr;
+
+//object destructuring
+const obj = {
+one: 1,
+two: 2,
+three: 3,
+}
+
+const one = obj.one;
+const two = obj.two;
+const three = obj.three;
+
+or
+
+const {one, two, three} = obj
+
+//object destructuring default
+const obj = {
+one: undefined,
+two: 2,
+three: 3,
+}
+
+const {one = 1, two, three} = obj
+
+//rename properties
+const {one: jeden} = obj
+console.log(jeden) // 1
+
+// nested objects
+const obj = {
+parent: {
+child: 'bobo'
+}
+}
+
+const {parent: {child}} = obj
+console.log(child) // 'bobo'
+
+// function arguments
+
+const user = {id: 0, username: 'jeff'}
+
+function haveFun({id, username}) {
+console.log(`hi ${username}`)
+}
+
+let options = {
+title: "Menu",
+height: 200,
+width: 100
+};
+
+// title = property named title
+// rest = object with the rest of properties
+let {title, ...rest} = options;
+
+// now title="Menu", rest={height: 200, width: 100}
+alert(rest.height); // 200
+alert(rest.width); // 100

@@ -1,0 +1,51 @@
+---
+title: "Twój blog w Gatsby"
+slug: twoj-blog-w-gatsby
+date: 2021-03-08
+category: gatsby
+published: true
+---
+
+## Jak i po co powstał ten blog?
+
+Idea blogowania dla programistów jest dość popularnym konceptem w brażny. Motywacje ku temu są bardzo różnorodne. Juniorzy robią to po to żeby się wyróżnić z tłumu, dla starszych programistów jest to sposób na dokumentowanie swojej wiedzy, dla tych najbardziej doświadczonych jest to medota na budowanie silnej marki osobistej i przekazywanie wiedzy mniej doświadczonym programistom.
+
+Dla mnie pomysł na bloga pojawił się jeszcze przed dostaniem pierwszej pracy jako frontend developer. Miał służyć jako element pomogający się wyróżnić spośród zalewu innych juniorów chcących wejść do świata IT, a także miał poruszać zagadnienia powszechne na typowych rozmowach rekuratacyjnych. Omawianie tych zagadnień miało dać rekruterowi do zrozumienia, że skoro dziele się wiedzą na dany temat to muszę rozumieć to conajmniej dobrze, zaś mi samemu miało pomagać systematyzować przyswojoną wiedzę.
+
+Akutalnie jestem po pierwszym miesiącu pracy jako junior frontend developer i ilość tematów przyszłych postów z tego wynikająca jest poteżna. Każdy dzień pisania kodu komercyjnie jest tematem na, choćby krótkiego ale napakowanego praktyczną wiedzą posta. W tym wpisie chciałbym w dużym skórcie opowiedzieć jak powstał ten blog.
+
+## React based static blog
+
+Moja fascynacja Gatsbym wynikała zarówno z uniwersalnej chęci poznawania nowych technologii ale także tego że bardzo polubiłem się z Reactem i jego kolejne zastosowanie wydawało mi się bardzo atrakcyjne. Uważam, że [dokumentacja Gatsbiego](https://www.gatsbyjs.com/docs/) jest zupełnie wystarczająca nawet dla wannabe developera do otworzenia strony podobnej lub bardziej zaawansowanej do mojej. Przy okazji moja niechęć do Wordpressa a także podejście w którym lubie robić wszystko od zera tym bardziej przeważało za zrobieniem portfolio i **bloga na Gatsbym**.
+
+## GraphQL's data layer w Gatsbym
+
+Spokojnie, jeśli nie miałeś nigdy styczności z GraphQL jego zastosowanie w Gatsbym nie powinno być żadnym problemem. Cały data layer jest colleted at build time. Wszystkie nasze assety: w tym wypadku obrazki, ikony czy nawet teksty na bloga są pulled into pages using GraphQL. Assety graficzne przy użyciu gatsby image API są processowane podczas buildu i w efektcie dostarczają nam completly optimized images co nie pozostaje bez znaczenia dla czasów ładowania naszych stron.
+
+## MDX: Markdown for the component era
+
+Kolejnym elementem data layer jest m.in. ten tekst jak i wszystkie inne teksty na tym blogu. Markdown is a very common way to write content in Gatsby posts and pages. Pisząc posty przy użyciu markdown omijamy klasyczne CMS'y i rozpraszające edytory tekstów napakowane milionem zbędnych dodatków. Ponadto mamy pełną kontrole nad wyglądem naszych blogpostów oraz możemy dodwać do nich dowolne, w pełni customizowalne componenty. W moim przypadku wszystkie blogposty znadują się w folderze content tego projekut w formatach z rozszerzeniem `.mdx`. To idealnie współgra z gatsby's graphql. Każdy post posiada swoje unikalne frontmatter:
+
+```javascript
+---
+title: "Twój blog w Gatsby"
+slug: twoj-blog-w-gatsby
+date: 2021-03-08
+category: gatsby
+published: true
+---
+```
+
+które zawiera informacje potrzebne gatsbiemu do tworzenia reszty magii za którą jest odpowiedzialny.
+
+## Gatsby Node APIs
+
+Gatsby can query your data in order to create pages. Używając danych z dostarczonych plików mdx gatsby podczas buildu generuje nam strony - które w tym przypadku są pojedyncznymi artykułami na blogu. Na podstawie przygotowanego wcześniej templatu posta który jest zwykłym widokiem opartym na reakcie czekającym na dostarczenie mu danych do wyświetlenia. Gatsby tworzy unikalne linki na postawie slugu, treść mdxa zamienia na readable article a do tego korzysta z nadanych mu tagów umożliwiając userowi wyszukowanie kolejnych artyków po tagach - do czego serdecznie zachęcam. Warto tu dodać że kazda strona z wynikami wyszukiwania tagów rónież powstała dopiero na etapie builda na podstawie graphlql query i dostarczonego, kolenjego page templatu.
+
+## Programistyczny wyróżnik bloga
+
+Z bajerów które sprawiają że ten blog może być nazwany programistycznym blogiem, poza spefycicznym nerdowskim rodzajem tresci, są komponenty zawierające kod wewnątrz artykułów. Zrobiłem to z wykorzystaniem prism-react-renderer. Stowrzyłem oddzielny komponent który moge wykorzystać w dowolnym miejscu artykułu dzięki zastosowaniu mdx. Uzyskujemy dość sporą możliwość customizacji całego komponentu, od ustawienia numerowania linii, prezez colorscheme aż na kolorowaniu składni w zależności od zastosoowanego języka kończąc. Gdy chce wkleić fragment kodu do artykułu opakowuje go odpowiednim znacznikiem podając komponentowi jedynie język w którym fragment kodu został napisany co umożliwia jego prawidłowe kolorowania i formatowanie.
+
+## Podsumowanie
+
+Zamierzam opisać w następnych wpisach każdy z elementów poruszonych w tym artykule szerzej wraz z tutorialami jak każdy z tych elementów stworzyć na swoim blogu. Dzięki zróżnicowanym kejsom z którymi mierze się każdego dnia w pracy tematów na przyszłe posty z pewnością nie braknie. Wierzę że opisywane przeze mnie tematy dadzą szybkie rozwiązania na różnorodne problemy dla osób które są na wcześniejszym etapie nauki ode mnie a mi przy okazji pomogą usystematyzować posiadaną wiedzę. Jestem wystawcą zasady że aby przekazywać swoją wiedzę innym trzeba zrozumieć odpowiedzialność z jaką to się wiąże. Zmotywnuje mnie to z pewnością do sprawdzania tego co pisze w artykułach a także konfronowania moich rozwiązan i praktyk z najlepszeymi praktykami stosowanymi przez prawdziwych wymiataczy.

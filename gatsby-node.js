@@ -6,6 +6,7 @@ exports.createPages = async function ({ actions, graphql }) {
           node {
             frontmatter {
               slug
+              published
             }
           }
         }
@@ -20,11 +21,14 @@ exports.createPages = async function ({ actions, graphql }) {
 
   data.posts.edges.forEach(edge => {
     const slug = edge.node.frontmatter.slug
-    actions.createPage({
-      path: `blog/${slug}`,
-      component: require.resolve(`./src/templates/postTemplate.js`),
-      context: { slug: slug },
-    })
+
+    if (edge.node.frontmatter.published) {
+      actions.createPage({
+        path: `blog/${slug}`,
+        component: require.resolve(`./src/templates/postTemplate.js`),
+        context: { slug: slug },
+      })
+    }
   })
 
   data.categories.group.forEach(group => {

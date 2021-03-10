@@ -9,10 +9,9 @@ const Wrapper = styled.article`
   width: calc(100% - 4rem);
   padding: ${p => (p.sm ? "1.7rem 0" : "4rem 0")};
   border-radius: 2rem;
-  margin-bottom: 4.3rem;
   transition: box-shadow 200ms ease-in;
   cursor: pointer;
-  margin: 0 2rem;
+  margin: 0 2rem 4.3rem;
 
   ${device.lg} {
     width: 64rem;

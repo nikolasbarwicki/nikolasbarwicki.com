@@ -15,7 +15,6 @@ const Wrapper = styled.footer`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  height: 100%;
   background-color: ${({ theme }) => theme.color.backgroundBlue};
   height: 39rem;
   margin-bottom: 0;
@@ -50,13 +49,13 @@ const MailWrapper = styled.div`
   display: flex;
   align-items: center;
   margin: 0 auto;
+`
 
-  svg {
-    width: 3rem;
+const StyledMailIcon = styled(MailIcon)`
+  width: 3rem;
 
-    ${device.md} {
-      width: 5rem;
-    }
+  ${device.md} {
+    width: 5rem;
   }
 `
 
@@ -107,7 +106,7 @@ const Footer = () => (
       <ContactText>KONTAKT</ContactText>
       <GotQuestion>Masz pytanie? Napisz!</GotQuestion>
       <MailWrapper>
-        <MailIcon />
+        <StyledMailIcon />
         <MailText>hello@nikolasbarwicki.com</MailText>
       </MailWrapper>
     </Heading>

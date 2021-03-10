@@ -1,3 +1,5 @@
+import "@fontsource/karla"
+import "@fontsource/space-grotesk"
 import { graphql, useStaticQuery } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"

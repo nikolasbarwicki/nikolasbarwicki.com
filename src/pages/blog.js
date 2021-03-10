@@ -25,8 +25,6 @@ const ArticlesWrapper = styled.section`
 
 const Newsletter = styled.section`
   position: relative;
-  /* padding: 7rem 0; */
-
   margin: 0 -2rem;
   padding: 7rem 0 0;
 `
@@ -54,8 +52,6 @@ const EmailWrapper = styled.div`
   justify-content: space-around;
   box-shadow: ${p => p.theme.shadow.email};
   background-color: ${p => p.theme.color.white};
-  display: flex;
-  flex-direction: column;
   width: calc(100% + 4rem);
   border-radius: 0;
   padding: 0.5rem 2rem;
@@ -123,7 +119,10 @@ const Blog = ({ data }) => {
 
 export const query = graphql`
   {
-    allMdx(sort: { order: DESC, fields: frontmatter___date }) {
+    allMdx(
+      sort: { order: DESC, fields: frontmatter___date }
+      filter: { frontmatter: { published: { eq: true } } }
+    ) {
       nodes {
         frontmatter {
           date(locale: "PL", formatString: "MMM DD")

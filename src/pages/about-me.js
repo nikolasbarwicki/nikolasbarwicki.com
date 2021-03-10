@@ -27,7 +27,7 @@ const PurpleBackground = styled.div`
   bottom: auto;
   z-index: -1;
   background-color: ${({ theme }) => theme.color.backgroundPurple};
-  width: 80%;
+  max-width: 140rem;
   height: 51rem;
   top: -7rem;
 
@@ -88,10 +88,10 @@ const ImageWrapper = styled.div`
   position: relative;
 
   ${device.md} {
-    width: 41rem;
     margin-left: 5rem;
     margin-top: 3rem;
-    width: calc(100vw - 4rem);
+    width: auto;
+    margin-right: 4rem;
   }
 `
 
@@ -105,6 +105,10 @@ const StyledImage = styled(Img)`
 
   ${device.md} {
     margin-left: 5rem;
+    width: 100%;
+  }
+
+  ${device.lg} {
     width: 36.5rem;
   }
 `
@@ -179,13 +183,14 @@ const AboutMe = ({ data }) => {
               noMargin
             />
             <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Zafascynowany Javascriptem i możliwościami, które oferuje.
+              Eksploruje zarówno frontend jak i backend aplikacji webowych.
+              Posiada niesłabnący apetyt do nauki nowych rzeczy i ciągłego
+              doskonalenia posiadanej wiedzy.
             </Text>
             <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim.
+              Aktualnie zgłębia tajniki technologii backendowych oraz stara się
+              zrozumieć zawiłości technologii blockchain
             </Text>
           </TextWrapper>
           <ImageWrapper>
@@ -208,8 +213,8 @@ const AboutMe = ({ data }) => {
               <li>HTML, CSS (styled-components)</li>
               <li>Javascript (ESNext), Typescript</li>
               <li>React, Redux, REST API</li>
+              <li>Gatsby, NextJS</li>
               <li>react-query, Formik</li>
-              <li>Gatsby</li>
             </SkillList>
           </SkillItem>
           <SkillItem>
@@ -218,9 +223,9 @@ const AboutMe = ({ data }) => {
               <h3>Backend</h3>
             </SkillHeading>
             <SkillList>
-              <li>Node.js, express.js</li>
+              <li>Node</li>
+              <li>Express</li>
               <li>MongoDB, PostgreSQL</li>
-              <li>JWT, Redis</li>
             </SkillList>
           </SkillItem>
           <SkillItem>
@@ -231,7 +236,7 @@ const AboutMe = ({ data }) => {
             <SkillList>
               <li>ESLint</li>
               <li>Prettier</li>
-              <li>Typescript</li>
+              <li>Figma, AdobeXD</li>
             </SkillList>
           </SkillItem>
           <SkillItem>
@@ -240,9 +245,9 @@ const AboutMe = ({ data }) => {
               <h3>Umiejętności miękkie</h3>
             </SkillHeading>
             <SkillList>
+              <li>Ciągła chęć rozwoju</li>
               <li>Umiejętność pracy w zespole</li>
               <li>Proaktywność</li>
-              <li>Typescript</li>
             </SkillList>
           </SkillItem>
         </SkillsGrid>

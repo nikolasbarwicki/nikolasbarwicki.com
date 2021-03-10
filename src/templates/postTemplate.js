@@ -66,23 +66,50 @@ const Content = styled.section`
   }
 `
 
-const H2 = styled.h2`
+const Heading2 = styled.h2`
   font-family: "Karla", sans-serif;
   font-size: 3.2rem;
   margin-bottom: 2rem;
 `
-const P = styled.p`
+const Paragraph = styled.p`
   font-family: "Karla", sans-serif;
   font-size: 2rem;
   line-height: 1.8;
   margin-bottom: 3.5rem;
+
+  code {
+    background-color: rgb(41, 44, 52);
+    color: #fff;
+    font-size: 2rem;
+    font-family: monospace;
+    border-radius: 0.5rem;
+    padding: 4px 6px;
+  }
+
+  a {
+    color: ${({ theme }) => theme.color.lightBlue};
+  }
+`
+
+const UnorderedList = styled.ul`
+  font-family: "Karla", sans-serif;
+  font-size: 2rem;
+  margin-bottom: 3.5rem;
+
+  li {
+    list-style: initial;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+  }
 `
 
 const components = {
   pre: Code,
   Callout,
-  p: P,
-  h2: H2,
+  p: Paragraph,
+  h2: Heading2,
+  ul: UnorderedList,
 }
 
 const Post = ({ data }) => {
@@ -99,7 +126,7 @@ const Post = ({ data }) => {
           <Img fixed={data.file.childImageSharp.fixed} />
           <DetailsTextWrapper>
             <Author>Nikolas Barwicki</Author>
-            <Date>21 styczeń 2021</Date>
+            <Date>{frontmatter.date}</Date>
           </DetailsTextWrapper>
         </DetailsWrapper>
       </Heading>
