@@ -23,29 +23,33 @@ const LineContent = styled.span`
   padding: 3px 0;
 `
 
-const WithLineNumbers = ({ children }) => {
-  return (
-    <Highlight
-      {...defaultProps}
-      theme={theme}
-      code={children.props.children.trim()}
-      language="tsx"
-    >
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <Pre className={className} style={style}>
-          {tokens.map((line, i) => (
-            <Line key={i} {...getLineProps({ line, key: i })}>
-              <LineContent>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({ token, key })} />
-                ))}
-              </LineContent>
-            </Line>
-          ))}
-        </Pre>
-      )}
-    </Highlight>
-  )
+const WithLineNumbers = props => {
+  if (props.children) {
+    return (
+      <Highlight
+        {...defaultProps}
+        theme={theme}
+        code={props.children.props.children.trim()}
+        language="tsx"
+      >
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <Pre className={className} style={style}>
+            {tokens.map((line, i) => (
+              <Line key={i} {...getLineProps({ line, key: i })}>
+                <LineContent>
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({ token, key })} />
+                  ))}
+                </LineContent>
+              </Line>
+            ))}
+          </Pre>
+        )}
+      </Highlight>
+    )
+  }
+
+  return null
 }
 
 export default WithLineNumbers

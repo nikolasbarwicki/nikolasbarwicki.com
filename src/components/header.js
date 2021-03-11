@@ -186,6 +186,7 @@ const Header = () => {
           <a
             href="https://github.com/nikolasbarwicki"
             target="_blank"
+            aria-label="Konto autora w serwisie Github"
             rel="noreferrer"
           >
             <GithubIcon />
@@ -193,6 +194,7 @@ const Header = () => {
           <a
             href="https://www.linkedin.com/in/nikolas-barwicki/"
             target="_blank"
+            aria-label="Konto autora w serwisie LinkedIn"
             rel="noreferrer"
           >
             <LinkedInIcon />
@@ -200,6 +202,7 @@ const Header = () => {
           <a
             href="https://dribbble.com/barwicki"
             target="_blank"
+            aria-label="Konto autora w serwisie Dribble"
             rel="noreferrer"
           >
             <DribbbleIcon />

@@ -6,24 +6,29 @@ category: javascript
 published: true
 ---
 
-## ale lipa
+## Przechowywanie danych w przeglądarce
 
-Zarówno `localStorage` jak i `sessionStorage` są częsciami web storage API i służą do zapisywania key/value pairs lokalnie w przeglądarce. Dane zapisane w obu tych miejscach nie zostaną wymazane po refreshu strony (dla `sessionStorage`) a nawet po restercie przeglararki (`localStorage`). Mamy cookisiy wiec po co ich używać? Poznajmy trzy podstawowe różnice miedzy `localStorage`/`sessionStorage` a cookiesami:
+Zarówno `localStorage` jak i `sessionStorage` są częsciami [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) i służą do zapisywania _key/value pairs_ lokalnie w przeglądarce. Dane zapisane w obu tych miejscach nie zostaną wymazane po refreshu strony (dla `sessionStorage`) a nawet po restercie przeglararki (`localStorage`). Mamy ciasteczka więc po co ich używać? Poznajmy trzy podstawowe zalety `localStorage`/`sessionStorage` nad ciastkami:
 
-- dane przechowujemy lokalnie i nie wysyłamy ich przy każdym requescie w headerze do serwera, jest to pożądane z punktu widzenia bezpieczeństwa a także bezpośrednio wiążę się z podpunktem następnym,
-- dzieki temu że nie wysyłamy tych danych przy każdym requescie możemy zapisywać do 10mb danych w przypadku wiekszosci modern browsers,
-- proste API jset proste do nauczenia w ktortym czasie i łatwego wykorzystania w projektach
-  W tej sytuacji cookisy są ewidtenie na przegranej pozycji. Jednak pozostają one nadal użyteczne w szczegolnosci do wszystkich operacji zwiazacnych z authentication - o tym w innym artykule.
+- **dane przechowujemy lokalnie** i nie wysyłamy ich przy każdym zapytaniu w headerze do serwera, jest to pożądane z punktu widzenia bezpieczeństwa a także bezpośrednio wiąże się z podpunktem następnym,
+- dzieki temu, że nie wysyłamy tych danych przy każdym zapytaniu możemy zapisywać **do 10mb danych** w przypadku wiekszości przeglądarek,
+- API jset **łatwe do zrozumienia** w krótkim czasie i do prostego wykorzystania w projektach
 
-Oba mają te samo api i ich wykorzystanie wygląda praktycznie idetnczynie. Przy wyborze jednego z nich bierzemy pod uwagę jak długo potrzebujemy przetrzymywać zapisane dane. Reszta artykułu bedzie zawierać przykłady dla `localStorage` ale warto pamietac ze zastosowanie ich z sessionStorage jest idetyczne. Dane zapisane w `localStorage` są dostępne w przegląrdce pomiedzy wszystkimi kartami i oknami pod warunkiem że pochodzą z tego samego origin - jeśli dodkonamy zmieny w jednym oknie (na same origin) to zmiany te beda widoczne w innym. Musimy to be on the same origin but the url path can be different.
+W tej sytuacji ciasteczka są ewidentnie na przegranej pozycji. Jednak pozostają one nadal użyteczne w szczególności do wszystkich operacji zwiazacnych z uwierzytelnieniem - o tym w innym artykule.
 
-W celu utworzenia nowego entries w `localStorage` object używamy metody `setItem()`. Metoda `setItem()` przyjmuje dwa argumenty, key i odpowiadająca mu wartość:
+## Local i Session
+
+Oba mają te samo API i ich wykorzystanie wygląda praktycznie idetnczynie. Przy wyborze jednego z nich bierzemy pod uwagę jak długo potrzebujemy przetrzymywać zapisane dane. Reszta artykułu będzie zawierać przykłady dla `localStorage` ale warto pamietać, że zastosowanie ich z sessionStorage jest idetyczne. Dane zapisane w `localStorage` są dostępne w przeglądarce pomiędzy wszystkimi kartami i oknami pod warunkiem, że pochodzą z tego samego _origin_ - jeśli dokonały zmiany w jednym oknie (na tym samym _origin_ - ścieżka może być inna) to zmiany te będą widoczne w innym.
+
+## Dodawanie i odczytywanie
+
+W celu utworzenia nowego wpisu w `localStorage` używamy metody `setItem()`. Metoda `setItem()` przyjmuje dwa argumenty, klucz i odpowiadająca mu wartość:
 
 ```javascript
 localStorage.setItem("kangur", "🦘")
 ```
 
-W celu odczytania wartości używamy metody `getItem()`. Przyjmuje ona jeden argument bedacy wczesniej użytym kluczem. Zwraca ona odpowiadająca kluczowi wartość w formie stringa
+W celu odczytania wartości używamy metody `getItem()`. Przyjmuje ona jeden argument będący wczesniej użytym kluczem. Zwraca ona odpowiadającą kluczowi wartość w formie stringa.
 
 ```javascript
 const myItem = localStorage.getItem("kangur")
@@ -31,36 +36,40 @@ const myItem = localStorage.getItem("kangur")
 // myItem = "🦘"
 ```
 
-Aby updateowac wartosc zapsiana w `localStorage` uzywamy tej samej metody co w przypadku tworzenia nowego entries, stosujemy ten sam key zaś zmienamy argument zawierający nową wartość.
+## Aktualizacja i usuwanie wartości
+
+Aby zaktualizować wartość zapisaną w `localStorage` uzywamy tej samej metody co w przypadku tworzenia nowego wpisu - stosujemy ten sam klucz, zaś zmieniamy argument zawierający nową wartość.
 
 ```javascript
-localStorage.setItem("kangur", "🦘")
+localStorage.setItem("kangur", "🐼")
+
+// myItem = "🐼"
 ```
 
-You can remove items from `localStorage` dwiema metodami. Przy użyciu `removeItem()` ktora przyjmuje jeden argument będacy kluczem obiektu `localStorage`:
+Możemy usunąć wartości z `localStorage` dwiema metodami. Przy użyciu `removeItem()` ktora przyjmuje jeden argument będacy kluczem obiektu `localStorage`:
 
 ```javascript
 localStorage.removeItem(key)
 ```
 
-Lub usunąć wszystkie items znajdujace sie w `localStorage` przy użyciu `clear()` metoda.
+Lub usunąć wszystkie items znajdujace sie w `localStorage` przy użyciu `clear()`.
 
 ```javascript
 localStorage.clear()
 ```
 
-## store non string with json
+## Przechowywanie nietypowych danych
 
-Przy uzyciu `localStorage` mozemy przechowywac jedynie string values. Czesto bedziemy spotykać sie z sytuacja w ktorej chcemy przchowac cale obiekty z danymi. Mozemy to zrobic przy uzyciu metod `JSON.stringify()` oraz `JSON.parse()` w nastepujacy sposob:
+Przy uzyciu `localStorage` mozemy przechowywac jedynie wartości typu _string_. Często bedziemy spotykać sie z sytuacja w ktorej chcemy przchowac cale obiekty z danymi. Mozemy to zrobić przy użyciu metod `JSON.stringify()` oraz `JSON.parse()` w nastepujacy sposob:
 
-W celu dodania lub updatu key-value pair:
+W celu dodania lub aktualizacji:
 
 ```javascript
 let myObj = { kraj: "🇮🇹", danie: "🍕" }
 localStorage.setItem(key, JSON.stringify(myObj))
 ```
 
-Dzeiki temu `myObj` zostal zapisany w `localStorage` jako string a nie jako obiket. Ze wzgledu na to aby ponownie uzyc tego obiektu musimy z powrotem przywrocic go do typu obiketu:
+Dzięki temu temu `myObj` został zapisany w `localStorage` jako _string_, a nie jako obiekt. Ze względu na to aby ponownie użyć tego obiektu musimy z powrotem przywrocic go do typu obiketu:
 
 ```javascript
 let item = JSON.parse(localStorage.getItem(key))
@@ -68,11 +77,11 @@ let item = JSON.parse(localStorage.getItem(key))
 // item = { kraj: "🇮🇹", danie: "🍕" }
 ```
 
-Dzieki temu zmienna item przyjela wartosc obiektu key i jest typu obiektu i mozemuy przeprowadzac na niej operacje przeprowadzalne na js obiektach.
+Dzięki temu zmienna `item` przyjęła wartość obiektu `key` i jest typu obiektu i możemy przeprowadzać na niej operacje, które możemy wykonywać na obiektach JS.
 
-## check for items
+## Sprawdzanie
 
-Czasmi moze sie okazac ze musimy sprawdzic czy posiadamy przypisane wartosci do `localStorage`. W tym celu mozemy uzyc zapisu:
+Czasami może się okazać że musimy sprawdzić czy posiadamy przypisane wartosci do `localStorage`. W tym celu mozemy użyć zapisu:
 
 ```javascript
 if (localStorage.length > 0) {
@@ -80,23 +89,17 @@ if (localStorage.length > 0) {
 }
 ```
 
-Jesli w `localStorage` znajduje sie choc jeden item test z ifa zwroci true.
+Jesli w `localStorage` znajduje sie choć jeden element _if_ zwróci `true`. `localStorage.length` informuje nas o liczbie zapisanych elementów.
 
-`localStorage.length` informuje nas o liczbie stored items.
+## Podsumowanie
 
-## summary with diefferences and api
+Zarówno `localStorage`, jak i `sessionStorage` pozwalają nam na przechowywanie par klucz/wartość w przeglądarce.
 
-Web storage objects `localStorage` and `sessionStorage` allow to store key/value in the browser.
+- klucz jak i wartość muszą być typu _string_
+- rozmiar zapisanych danych wynosi ponad 5mb
+- nie tracą ważności
+- dane są powiązane z _origin_
 
-Both key and value must be strings.
-The limit is 5mb+, depends on the browser.
-They do not expire.
-The data is bound to the origin (domain/port/protocol).
+`localStorage` - współdzielone pomiędzy wszystkimi kartami i oknami pochodzącymi z tego samego _origin_, nie jest zerowane po restarcie przeglądarki
 
-localStorage
-Shared between all tabs and windows with the same origin
-Survives browser restart
-
-sessionStorage
-Visible within a browser tab, including iframes from the same origin
-Survives page refresh (but not tab close)
+`sessionStorage` - dostępne wewnatrz karty przeglądarki z tego samego _origin_, nie jest zerowane po przeładowaniu strony lecz po zamknięciu karty.

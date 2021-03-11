@@ -23,7 +23,7 @@ const Wrapper = styled.div`
     margin-bottom: 3.8rem;
   }
 
-  #newsletter-submit {
+  .newsletter-submit {
     background-color: ${({ theme }) => theme.color.primary};
     color: ${({ theme }) => theme.color.white};
     border: none;
@@ -66,8 +66,15 @@ const EmailInput = ({ centered }) => {
   return (
     <Wrapper centered={centered}>
       <form id="newsletter">
-        <input id="newsletter-email" type="email" placeholder="Adres email" />
-        <input id="newsletter-submit" type="submit" value="Zapisz" />
+        <input
+          id="newsletter-email"
+          type="email"
+          placeholder="Adres email"
+          aria-label="Adres email"
+        />
+        <button type="submit" className="newsletter-submit">
+          Zapisz
+        </button>
       </form>
       <span className="newsletter-text">
         <span
