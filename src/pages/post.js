@@ -3,7 +3,7 @@ import Img from "gatsby-image"
 import React from "react"
 import styled from "styled-components"
 import Callout from "../components/Callout"
-import Code from "../components/Code"
+import Code from "../components/code"
 import Layout from "../components/layout"
 
 const Heading = styled.section`

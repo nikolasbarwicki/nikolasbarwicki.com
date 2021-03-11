@@ -4,7 +4,7 @@ import Layout from "../components/layout"
 import { graphql } from "gatsby"
 import Img from "gatsby-image"
 import Callout from "../components/Callout"
-import Code from "../components/Code"
+import Code from "../components/code"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { MDXProvider } from "@mdx-js/react"
 
