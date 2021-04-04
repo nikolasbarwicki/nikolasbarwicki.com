@@ -8,6 +8,7 @@ import OtherIcon from "../assets/icons/other-icon.svg"
 import SoftIcon from "../assets/icons/soft-icon.svg"
 import Dots from "../assets/images/dots.svg"
 import Heading from "../components/heading"
+import SEO from "../components/seo"
 import Layout from "../components/layout"
 import { device } from "../styles/breakpoint"
 
@@ -173,6 +174,8 @@ const SkillList = styled.ul`
 const AboutMe = ({ data }) => {
   return (
     <Layout>
+      <SEO title="O mnie" />
+
       <About>
         <Container>
           <TextWrapper>

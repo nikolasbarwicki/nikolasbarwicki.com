@@ -1,93 +1,176 @@
 ---
 title: "Destrukturyzacja w Javascript"
-slug: jak-stworzyc-bloga-dzieki-gatsby
+slug: destrukturyzacja-w-javascript
 date: 2021-04-04
-category:
-published: false
+category: javascript
+published: true
 ---
 
-1.  new way
-    const [one, two] = [1,2,3]
+## Rozpakowywanie tablic i obiektów
 
-old way
-const arr = [1,2,3]
-const one = arr[0]
-const two = arr[1]
+Obiekty i tablice są strukturami danych umożliwiającymi nam na przechowywanie danych w uporządkowany sposób. Często zdarzają się sytuację, w których nie potrzebujemy wykorzystywać całego obiektu/tablicy lecz tylko ich **pojedynczych elementów**. Z pomocą wtedy przychodzi nam _destrukturyzacja_ w Javascripcie.
 
-const arr = [1,2,3]
-const [one, two, three] = arr;
-console.log(one) // 1
-console.log(two) // 2
+## Destrukturyzacja tablic
 
-//It’s called “destructuring assignment,” because it “destructurizes” by copying items into variables. But the array itself is not modified.
+Przed ES6 aby przypisać wartości z tablicy do zmiennych musieliśmy definiować każdą zmienną **oddzielnie**:
 
-//ignore values
-const [one,,three] = arr;
+```javascript
+const zoo = [🐙, 🦫, 🦭]
 
-//combine the ...rest
-const [one, ...rest] = arr;
-console.log(rest) // [2,3]
+const ośmiornica = arr[0]
 
-/default = value
-const arr = [undefined, 2, 3];
-const [one = 1, two, three] = arr;
+const bóbr = arr[1]
+```
 
-//object destructuring
-const obj = {
-one: 1,
-two: 2,
-three: 3,
+Przy zastosowaniu nowej składni możemy uzyskać ten sam rezultat w znacznie krótszy i bardziej czytelny sposób:
+
+```javascript
+const [ośmiornica, bóbr] = [🐙, 🦫, 🦭]
+// ośmiornica = 🐙
+// bóbr = 🦫
+```
+
+Należy pamiętać, że do destrukturyzacji dochodzi poprzez kopiowanie elementów do nowych zmiennych - **tablica źródłowa pozostaje niezmieniona**.
+
+## Pomijanie, ...rest oraz wartości domyślne
+
+W poprzednim przykładzie widzimy, że do zmiennych zostały zapisane kolejne elementy tablicy. Zapytacie teraz, co gdybyśmy chcieli **pominąć jeden lub więcej elementów** - czy jest to możliwe? Oczywiście! Ignorować wartości przy destrukturyzacji tablic możemy w następujący sposób:
+
+```javascript
+const [ośmiornica, , foka] = [🐙, 🦫, 🦭]
+// ośmiornica = 🐙
+// foka = 🦭
+```
+
+Bardziej skomplikowanym przypadkiem ignorowania elementów tablicy jest zastosowanie operatora `...rest` . Pozwala on na przyporządkowanie elementów tablicy, których nie potrzebujemy zapisywać w oddzielnych zmiennych w nowej tablicy:
+
+```javascript
+const [ośmiornica, ...rest] = [🐙, 🦫, 🦭]
+// ośmiornica = 🐙
+// rest = [🦫,🦭]
+```
+
+Kolejną ciekawą możliwością jaką oferuje nam destrukturyzacja jest możliwość nadania wartości domyślnych. W przypadku gdy element tablicy jest typu `undefined` możemy nadać mu wcześniej przypisaną wartość:
+
+```javascript
+const zoo = [undefined, 🦫, 🦭]
+const [ośmiornica = 🐙, 🦫, 🦭] = zoo
+// ośmiornica = 🐙
+// bóbr = 🦫
+// foka = 🦭
+```
+
+## Destrukturyzacja obiektów
+
+W podobny sposób możemy działać również na obiektach. Przyjrzyjmy się przykładowi podobnemu jak przedstawiony na samym początku, lecz w tym przypadku dla obiektów. Ponownie łatwo zauważyć, że dzięki zastosowaniu destrukturyzacji otrzymujemy dużo czytelniejszy i milszy dla oka kod.
+
+```javascript
+// Stary syntax
+const obiad = {
+  zupa: 🍜,
+  stek: 🥩,
+  kompot: 🥤,
 }
 
-const one = obj.one;
-const two = obj.two;
-const three = obj.three;
+const zupa = obiad.zupa
+const stek = obiad.stek
+const kompot = obiad.kompot
 
-or
+// Nowy syntax
+const { zupa, stek, kompot } = obiad
 
-const {one, two, three} = obj
+// zupa = 🍜
+// stek = 🥩
+// kompot = 🥤
+```
 
-//object destructuring default
-const obj = {
-one: undefined,
-two: 2,
-three: 3,
+## Ponownie wartości domyślne oraz zmiany nazw zmiennych
+
+Również dla obiektów otrzymujemy możliwość nadania **wartości domyślnych** zgodnie z przykładem poniżej:
+
+```javascript
+const obiad = {
+  zupa: undefined,
+  stek: 🥩,
+  kompot: 🥤,
 }
 
-const {one = 1, two, three} = obj
+const { zupa = 🍜, stek, kompot } = obiad
+```
 
-//rename properties
-const {one: jeden} = obj
-console.log(jeden) // 1
+Co w przypadku, w którym klucz w obiekcie ma **taką samą wartość** jak nazwa już zdefiniowanej uprzednio zmiennej? Nie możemy posiadać w tym samym zakresie dwóch niezależnych zmiennych o tej samej nazwie. Tutaj z pomocą przychodzi nam możliwość przypisania wartości do zmiennej o dowolnej nazwie:
 
-// nested objects
-const obj = {
-parent: {
-child: 'bobo'
-}
+```javascript
+const obiad = {
+  zupa: 🍜,
+  stek: 🥩,
 }
 
-const {parent: {child}} = obj
-console.log(child) // 'bobo'
+const { zupa: kapuśniaczek } = obiad
+// kapuśniaczek = 🍜
+```
 
-// function arguments
+## Zagnieżdzenia i argumenty funkcji
 
-const user = {id: 0, username: 'jeff'}
+Powyższe przykłady pokazywały jak pracować na prostych obiektach. W przypadku zagnieżdżonych obiektów destrukturyzacja również jest możliwa:
 
-function haveFun({id, username}) {
-console.log(`hi ${username}`)
+```javascript
+const kurnik = {
+  kura: {
+    kurczak: 🐣,
+  },
 }
 
-let options = {
-title: "Menu",
-height: 200,
-width: 100
-};
+const {
+  kura: { kurczak },
+} = kurnik
 
-// title = property named title
-// rest = object with the rest of properties
-let {title, ...rest} = options;
+// kurczak = 🐣
+```
 
-// now title="Menu", rest={height: 200, width: 100}
-alert(rest.height); // 200
-alert(rest.width); // 100
+Dla obiektów, podobnie jak dla tablic, mamy możliwość skorzystania z operatora `...rest`.
+
+```javascript
+let samolot = {
+  model: "A321",
+  pilot: 👩🏻‍✈️,
+  fotel: 💺,
+}
+
+let { model, ...rest } = samolot
+// model = "A321"
+// rest.pilot = 👩🏻‍✈️
+// rest.fotel = 💺
+```
+
+Ostatnim zastosowaniem destrukturyzacji jest używanie jej wewnątrz funkcji. Dzięki temu możemy operować na właściowościach obiektu przekazanego jako argument funkcji. Znając właściwości obiektu będącego arugmentem funkcji możemy dokonać destrukturyzacji zgodnie z przykładem:
+
+```javascript
+const user = { id: 0, username: "Andrzej" }
+
+function siemaAndrzej({ id, username }) {
+  console.log(`cześć ${username}`)
+}
+
+siemaAndrzej(user)
+// 'cześć Andrzej'
+```
+
+Osoby zaznajomione z Reactem mogą dostrzegać pewien powtarzający się schemat. Zgodnie z dobrymi praktykami powinniśmy dokonywać destrukturyzacji obiektu `props` w komponentach Reaktowych. Przy takiej operacji robimy dokladnie to samo co w poprzednim przykładzie - "rozpakowujemy" obiekt `props` i wyjmujemy z niego potrzebne nam wartości zmiennych. Poniżej przykład dla funkcyjnego komponentu reaktowego zwracającego nam przycisk:
+
+```jsx
+const Button = ({ text, type }) => {
+  return <button type={type}>{text}</button>
+}
+
+// inny zapis
+const Button = props => {
+  const { text, type } = props
+
+  return <button type={type}>{text}</button>
+}
+```
+
+## Podsumowanie
+
+Ciężko nie zgodzić się z obserwacją, że kod z umiejętnym zastosowaniem destrukturyzacji jest z pewnością bardziej czytelny i uporządkowany. Możliwości Javascriptu w tej kwestii, przed ES6, były nieco ograniczone i prowadziło to do powstawania nadamiaru niepotrzebnego kodu. Znając wszystkie możliwości opisane w tym artykule z pewnością możemy sprawić aby nasz kod był bardziej przyjazny zarówno dla nas, jak i dla innych deweloperów, z którymi mamy okazję pracować.

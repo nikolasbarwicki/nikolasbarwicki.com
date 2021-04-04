@@ -87,8 +87,6 @@ const PurpleBackground = styled.div`
 `
 
 const IndexPage = ({ data }) => {
-  console.log(device.md)
-
   const getCategoryImage = name => {
     return data.categoriesImg.nodes.filter(img => img.name.includes(name))[0]
       .childImageSharp.fixed

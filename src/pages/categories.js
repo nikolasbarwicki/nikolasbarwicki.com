@@ -3,6 +3,7 @@ import styled from "styled-components"
 import CategoryLink from "../components/categoryLink"
 import Container from "../components/container"
 import Heading from "../components/heading"
+import SEO from "../components/seo"
 import Layout from "../components/layout"
 import { device } from "../styles/breakpoint"
 
@@ -64,6 +65,8 @@ const categories = ({ data }) => {
 
   return (
     <Layout>
+      <SEO title="Kategorie" />
+
       <Categories>
         <Container>
           <StyledHeading main="Kategorie" secondary="Blog" alignLeft />

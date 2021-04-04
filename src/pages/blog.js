@@ -6,6 +6,7 @@ import Container from "../components/container"
 import EmailInput from "../components/emailInput"
 import Heading from "../components/heading"
 import Layout from "../components/layout"
+import SEO from "../components/seo"
 import { device } from "../styles/breakpoint"
 
 const ArticlesWrapper = styled.section`
@@ -88,6 +89,8 @@ const NewsletterFlex = styled.div`
 const Blog = ({ data }) => {
   return (
     <Layout>
+      <SEO title="Blog" />
+
       <ArticlesWrapper>
         <Heading main="Artykuły" secondary="Blog" />
         <h4>2021</h4>
