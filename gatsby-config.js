@@ -3,6 +3,7 @@ module.exports = {
     title: `Nikolas Barwicki`,
     description: `Jestem Javascript developerem. To miejsce jest moim blogiem i portfolio. `,
     author: `Nikolas Barwicki`,
+    siteUrl: `https://www.nikolasbarwicki.com`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -49,5 +50,12 @@ module.exports = {
       },
     },
     `gatsby-plugin-mdx`,
+    `gatsby-plugin-advanced-sitemap`,
+    {
+      resolve: `gatsby-plugin-offline`,
+      options: {
+        precachePages: [`/blog/`, `/categories/`, `/about-me/`],
+      },
+    },
   ],
 }

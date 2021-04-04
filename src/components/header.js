@@ -208,6 +208,7 @@ const Header = () => {
             <DribbbleIcon />
           </a>
           <Button
+            aria-label="Toggle mobile nav"
             onClick={() => toggleMobileNav(!mobileNav)}
             mobileNav={mobileNav}
           ></Button>
