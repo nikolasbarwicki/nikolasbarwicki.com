@@ -103,7 +103,7 @@ const NavRight = styled.div`
 const MobileNav = styled.nav`
   position: absolute;
   z-index: 1;
-  width: 100%;
+  width: calc(100% - 6rem);
   background-color: ${p => p.theme.color.paleBlue};
   color: ${p => p.theme.color.primary};
   padding: 0 3rem;

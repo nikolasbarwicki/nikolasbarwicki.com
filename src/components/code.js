@@ -2,16 +2,22 @@ import Highlight, { defaultProps } from "prism-react-renderer"
 import theme from "prism-react-renderer/themes/nightOwl"
 import React from "react"
 import styled from "styled-components"
+import { device } from "../styles/breakpoint"
 
 const Pre = styled.pre`
   text-align: left;
   margin: 30px -50px;
   padding: 30px 40px;
-  border-radius: 15px;
+  border-radius: 0px;
   font-family: monospace;
   font-size: 16px;
   font-weight: 700;
   overflow-x: scroll;
+  width: calc(100% - 15px);
+
+  ${device.md} {
+    border-radius: 15px;
+  }
 `
 
 const Line = styled.div`

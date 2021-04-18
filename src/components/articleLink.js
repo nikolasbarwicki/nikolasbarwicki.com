@@ -23,7 +23,10 @@ const Wrapper = styled.article`
   }
 
   :hover {
-    box-shadow: ${({ theme }) => theme.shadow.card};
+    ${device.md} {
+      box-shadow: ${({ theme }) => theme.shadow.card};
+    }
+
     transition: box-shadow 200ms ease-in;
   }
 
