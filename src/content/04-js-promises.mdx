@@ -1,0 +1,244 @@
+---
+title: "Promise - podstawy"
+slug: promise-w-javascript-podstawy
+date: 2021-04-18
+category: javascript
+published: true
+---
+
+### Wstęp
+
+_Promise_ w Javascript to obiekt, który w przyszłości może zwrócić wartość - rozwiązanie obietnicy `resolved` lub powód dla którego obietnica została odrzucona (np. błąd sieci). _Promise_ w daneym momencie znajduje się w jednym z trzech stanów: `fulfilled` (_rozwiązana_), `rejected` (_odrzucona_) lub `pending` (_oczekująca_).
+
+Funkcją znadującą się wewnątrz _promise_ nazywamy egzekutorem. W momencie stworzenia obietnicy egzekutor jest wywoływany od razu. Wewnątrz niego zawarty jest kod, dzięki któremu otrzymujemy oczekiwany przez nas rezultat.
+
+Argumentami egzekutora są `resolve` i `reject` są to _callbacki_ pochodzące bezpośrednio z Javascriptu. Egzekutor po wykonaniu swojego zadania i otrzymaniu rezultatu powinien wywołać jeden z tych dwóch callbacków w zależności od uzyskanego rezultatu:
+
+- `resolve(value)` - jeśli zadanie egzekutora zostało wykonane pomślnie, gdzie `value` jest rezultatem pochodzącym z jego realizacji
+- `reject(error)` - jeśli w trakcie działania egzekutora wystąpił bład, gdzie `error` jest wartością otrzymanego błedu.
+
+### Właściowości obiektu _promise_
+
+Obiekt _promise_ zwrócony z konstruktora `new Promise` posiada następujące właściwości:
+
+- `state` - początkowo mający wartość `pending`, następnie na skutek wykonania kodu znajdującego się w egzekutorze zmienia się na `fullfiled` kiedy w przypadku wywołania _callbacku_ `resolve`, lub `rejected` dla _callbacku_ `reject`
+- `result` - pierwotnie o wartości `undefined`, potem zmieniany sie na `value` będące argumentem wywołanego `resolve(value)`, lub na wartość `error` kiedy `reject(error)` jest wywołany.
+
+W Javascript nie mamy bezpośredniego dostępu do właściowści `state` i `result`. Obiekt _promise_ jest pewnego rodzaju łącznikiem między egzekutorem, a funkcjami które wykorzysują rezultat jego działania. Jest to powodem, dla którego używamy metod `.then`, `.catch` i `.finally` w celu skorzystania z wartości właściwości `state` i `result` o czym w dalszej części wpisu.
+
+### Rozwiązanie i odrzucenie obietnicy.
+
+Poniżej widzimy przydkład prostej obietnicy. Egzekutor jest wywoływany od razy przy tworzoniu obietnicy dzięki składni `new Promise`.
+
+```jsx
+const willGetAPayRise = new Promise(function (resolve, reject) {
+  // funkcja powyżej jest wywoływana natychmiastowo po utworzeniu obiektu obietnicy
+
+  // po 1 sekundzie dowiadujemy się, że zadanie zostało wykonane pomyślnie,
+  // a jego rezultatem jest "otrzymujesz podwyżkę"
+  setTimeout(() => resolve("+500 zł 💰"), 1000)
+})
+```
+
+Otrzymuje on dwa argumenty `resolve` i `reject`. Jeden z nich powinien zostać wywołany po wykonaniu zadania przypisanego do naszej obietnicy. W przypadku poniżej przy użyciu `setTimeout` pozorujemy sytuacje, w której rezultat obietnicy nie jest natychmiastowy - jest to operacja wymagająca czasu. Po sekundzie "wykonywania zadania" egzekutor wywołuje `resolve("done")` , gdzie `"done"` jest wartością, którą zwraca obietnica. Wywołanie `resolve()` powoduje, też zmianę stanu obietnicy na `fullfiled`.
+
+W przypadku niepowodzenia wykonania zadania przypisanego do naszej obietnicy również zwróci ona wartość - w tym przypadku jest jest obiekt `Error` z wiadomością _"spróbuj innym razem 💔"_.
+
+```jsx
+const willGetAPayRise = new Promise(function (resolve, reject) {
+  // po 1 sekundzie dowiadujemy się, że zadanie zostało wykonane,
+  // a jego rezultatem jest błąd z wiadomością "spróbuj innym razem 💔"
+  setTimeout(() => reject(new Error("spróbuj innym razem 💔")), 1000)
+})
+```
+
+Również jak w przykładzie poprzednim zastosowano `setTimeout`, który opóźnia uzyskanie rezultatu obietnicy o 1 sekunde. Finalnie stan obietnicy zmienia się na `rejected`.
+
+### `.then`
+
+W celu wykonywania operacji na wartościach zwracanych z obietnic możemy używać metod `.then`, `.catch` oraz `.finally`. Metoda `.then` może przyjąć dwa argumenty. Argumentami podwanymi do tej metody są funkcję.
+
+```jsx
+promise.then(
+  function(result) // do obsługi rozwiązanej obietnicy
+  function(error) // do obsługi odrzuconej obietnicy
+);
+```
+
+W przypadku pierwszego argumentu mamy funkcje, która zostanie wywołana przy rozwiązaniu obietnicy, zaś funkcja będąca drugim argumentem wywołana będzie gdy obietnica zostanie odrzucona.
+
+Poniżej widzimy przkłady użyte poprzednio lecz teraz zostały one poszerzone o praktyczne zastosowanie metody `.then` która pozwala nam na wykonaniu pożądanych przez nas operacji na rezultacie wykonania obietnicy.
+
+```jsx
+const willGetAPayRise = new Promise(function (resolve, reject) {
+  setTimeout(() => resolve("+500 zł 💰"), 1000)
+})
+
+// resolve() wywołuje pierwszą funkcję
+willGetAPayRise.then(
+  result => alert(result), // zwraca "+500 zł 💰" po 1 sekundzie
+  error => alert(error) // nie jest wywołane
+)
+
+const willGetAPayRise = new Promise(function (resolve, reject) {
+  setTimeout(() => reject(new Error("spróbuj innym razem 💔")), 1000)
+})
+
+// reject() wywołuje drugą funkcję
+willGetAPayRise.then(
+  result => alert(result), // nie jest wywołane
+  error => alert(error) // zwraca "Error: spróbuj innym razem 💔" po 1 sekundzie
+)
+```
+
+### `.catch`
+
+Metoda `.catch` przeznaczona jest to obsługi błędów - wykonania operacji na wartościach zwracanych z obietnic odrzuconych - ze stanem `rejected`
+
+```jsx
+const willGetAPayRise = new Promise((resolve, reject) => {
+  setTimeout(() => reject(new Error("spróbuj innym razem 💔")), 1000)
+})
+
+willGetAPayRise.catch(alert) // shows "Error: Whoops!" after 1 second
+```
+
+Po co nam metoda `.catch` skoro ten obsługę błędów mieliśmy już przy metodzie `.then`? Metoda ta jest analogiczna do zapisu `.then(null, fn)` - jest to po prostu skórcenie zapisu zwiększajace czytelność naszego kodu
+
+### `.finally`
+
+Metoda `.finally(fn)` jest analogiem do zapisu `.then(fn, fn)`. Zostaje ona wywołana _niezależnie_ od tego czy obietnica zostaje rozwiązana czy odrzucona. Do wywołania metody `.finally` wymagany jest stan obietnicy `settled` i występuje on zarówno w kiedy obietnica ma status `resolved` jak i `rejected`. Metoda ta może być używana na przykład do ukrycia z interfejsu elementów sugerujących użytkownikowi wykonywanie operacji asynchronicznej - ukrycie spinnera pojawiającego się w trakcie oczekiwania na odpowiedź z serwera.
+
+```jsx
+new Promise((resolve, reject) => {
+  /* wykonuje operację wymagającą czasu */
+})
+  // wywołane jest zarówno przy rozwiązaniu jak i odrzuceniu obietnicy
+  .finally(() => usuń spinner z interfejsu użytkownika)
+  // spinner jest usuwany zawsze przed obsłużeniem rezultatu obietnicy
+  .then(result => show result, err => show error)
+```
+
+W przykładzie powyżej możemy zauważyć, że `.finally` nie przyjmuje żadnych argumentów - z jego wywołania nie możemy dowiedzieć czy czy obietnica została rozwiązana czy odrzucona. Widzimy także że `.finally` nie blokuje wykonania dlaszych metod. Możemy zastosować wiele wywołań tej metody przed `.then` lub `.catch` i nie będzie to miało wpływu na ich wywołanie.
+
+### Tylko jeden rezultat
+
+Egzekutor powninen wywołać jednokrotnie `resolve` lub `reject`. Zmiana stanu obietnicy jest ostateczna i kolejne wywołanie `resolve` lub `reject` nie ma wpływu na jej stan i jest zwyczajnie ignorowane. Pierwsze wywołanie jednej z tych metod jest znaczące.
+
+```jsx
+const willGetAPayRise = new Promise(function (resolve, reject) {
+  resolve("+500 zł 💰")
+
+  reject(new Error("spróbuj innym razem 💔")) // pominięte
+  setTimeout(() => resolve("+500 zł 💰", "+1500 zł 💰💰💰")) // pominięte
+})
+```
+
+Warto tu dodać, że poza ignorowaniem kolejnych prób zmiany stanu obietnicy ignorowane są także dodatkowe arugmenty przekazywane do funkcji `resolve/reject`. Zwrócony z obietnicy może zostać tylko pierwszy argument (lub jego brak), każdy kolejny argument będzie pominięty.
+
+### Zastosowanie praktyczne
+
+Poniżej przedstawiony został przykład zastosowania obietnic taki, który powinnien być nam dużo lepiej znany. To właśnie dzięki nim możemy komunikować frontend z backendem w sposób nie wpływający niekorzystnie na użytkowanie naszych aplikacji. Na potrzeby przykładu skonstuujemy funkcje udającą zastosowanie funkcji `fetch` lub wykorzystanie bilbioteki `axios` obie one zwaracają przecież obietnice.
+
+Stwórzmy najpierw funkcję, która jako argument przyjmie wartość wskazującą na _url_ końcówki API z potrzebnym nam zasobem zaś zwracać ona będzię właśnie _promise_. Zastosowanie funkcji `setTimeout` ponownie ma udawać fakt obcowania z prawdziwym API korzystającym z bazy danych.
+
+```jsx
+const fakeRequest = (url) => {
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+				// tu będzie dalszy kod
+			}
+		}, 3000)
+	})
+}
+```
+
+W prawdziwym przypadku, na skutek różnicych przyczyn, nie zawsze otrzymujemy pozyzytywną odpowiedź z serwera. Napotykamy często błedy wynikające z jego nadmiernego obciążenia, błędnej autoryzacji lub braku żądanego zasobu. W naszym kodzie zasymulujemy takie sytuacje przez generowanie losowej liczby przy użyciu `Math.random()` zwarającej losową liczbę z przdziału od 0 do 1.
+
+```jsx
+const fakeRequest = url => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const rand = Math.random()
+
+      if (rand < 0.3) {
+        reject()
+      } else {
+        resolve()
+      }
+    }, 3000)
+  })
+}
+```
+
+W przypadku wartość `rand` mniejszej od 0.3 nasza obietnica zostanie odrzucona, w pozostałych sytuacjach wywołana zostanie funkcja `resolve()`. Dodajmy zatem nasze _zasoby_, które możemy żądać od naszego _API_.
+
+```jsx
+const fakeRequest = url => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const rand = Math.random()
+
+      if (rand < 0.3) {
+        reject()
+      } else {
+        const pages = {
+          "/zoo": [
+            { id: 1, animal: "🐵" },
+            { id: 2, animal: "🐥" },
+          ],
+          "/about": "Lorem ipsum",
+        }
+        const data = pages[url]
+        resolve()
+      }
+    }, 3000)
+  })
+}
+```
+
+Dodany został obiekt `pages` zawierający interesujące nas dane. Możemy zapisać je do zmiennej `data` poprzez użycie odpowiedniego klucza będącego naszym argumentem funkcji `fakeRequest`.
+
+Finalnie przygotujmy wartości zwracane przez naszą obietnice. W przypadku jej odrzucenia otrzymamy obiekt zawierający `status: 500` informujący o niepowodzeniu w rozwiązaniu naszej obietnicy. Zaś dla funkcji `resolve()` zwrócony nam zostanie obiekt ze statusem informującym nas o powodzeniu operacji oraz obietkem z oczekiwanymi przez nas danymi.
+
+```jsx
+const fakeRequest = url => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const rand = Math.random()
+
+      if (rand < 0.3) {
+        reject({ status: 500 })
+      } else {
+        const pages = {
+          "/zoo": [
+            { id: 1, animal: "🐵" },
+            { id: 2, animal: "🐥" },
+          ],
+          "/about": "Lorem ipsum",
+        }
+        const data = pages[url]
+        resolve({ status: 200, data })
+      }
+    }, 3000)
+  })
+}
+```
+
+Brakującym elementem całości jest obsłużenie rezultatu rozwiązania naszej obietnicy. Zastosujemy w tym celu metody `.then` i `.catch`. W tym przypadku pod argumentem `res` kryje się wartość wynikająca z rozwiązania naszej obietnicy. W przypadku pomyślnego rozwiązania obietnicy w konsoli zobaczymy obiekt: `{status: 200, data: [{id: 1, animal: '`🐵`'},{id: 2, animal: '`🐥`'}]`zaś dla odrzucenia obietnicy w konsoli pojawi się wartość `500` będąca wartością klucza `status` zwracanej wartości.
+
+```jsx
+fakeRequest("/zoo")
+  .then(res => {
+    console.log(res)
+    console.log("Sukces")
+  })
+  .catch(res => {
+    console.log(res.status)
+    console.log("Porażka")
+  })
+```
+
+### Podsumowanie
+
+Mam nadzieje, że po tym wyczerpującym omówieniu obietnice w Javascript nie stanowią, żadnego problemu i wszystkie zagadki za nimi stojące nie są już żadną tajemnicą. Zrozumienie zagadanienia asynchroniczności w Javascript sprawa trudności wielu osobom ale jest niezbędne do swobonej pracy z tym językiem, zarówno na frontendzie jak i backendzie. W kolejnych wpisach z pewnością poruszę zagadnienie _promise chaining_, zgłębie temat obsługi błędów oraz przyjrzę się składni `async/await`.

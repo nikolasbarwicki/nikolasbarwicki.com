@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Layout from "../components/layout"
+import SEO from "../components/seo"
 import { graphql } from "gatsby"
 import Img from "gatsby-image"
 import Callout from "../components/Callout"
@@ -119,6 +120,8 @@ const Post = ({ data }) => {
 
   return (
     <Layout>
+      <SEO title={frontmatter.title} />
+
       <Heading>
         <Category>{frontmatter.category}</Category>
         <Title>{frontmatter.title}</Title>
