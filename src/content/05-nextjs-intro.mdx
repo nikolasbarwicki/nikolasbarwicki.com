@@ -1,0 +1,315 @@
+---
+title: "Wprowadzenie do Next.js"
+slug: wprowadzenie-do-next
+date: 2021-05-02
+category: next
+published: true
+---
+
+## Wstęp
+
+Budowanie aplikacji zawsze wiąże się z rozwiązywaniem bardziej lub mniej złożonych problemów. Na szczęście nowe technologie przychodzą nam z pomocą i rozwiązują wiele z nich już na samym początku. Dzięki temu, my deweloperzy, możemy się skupić na zagadnieniach istotnych z punktu widzenia biznesu i zacząć dostarczać funkcjonalny kod **jeszcze szybciej**.
+
+Wybór technologii do danego projektu jest uzależniony od wielu czynników ale ciężko się nie zgodzić, że obecnie w środowisku frontendu **króluje React**. Każdy kto miał z nim kontakt z pewnością wie czym jest _Create React App (CRA)_, jednak w ostatnim czasie na popularności zyskało nowe rozwiązanie również oparte o Reacta - Next.js.
+
+## Create React App (CRA)
+
+Jest to narzędzie oszczedzające nam czasu na konfiguracji naszego środowiska deweloperskiego. Za pomocą jednej komendy otrzymujemy gotowy projekt oparty o Reakta bez poświęcania czasu na zrozumienie i konfiguracje Babel i Webpacka. Jednak każdy kij ma dwa końce. Dzięki pozornej oszczędności na starcie nie zawsze otrzymujemy **idealną aplikacje produkcyjną**. Gdy pochylimy się nad zagadnieniami **SEO** lub **optymalizacji wydajności** okaże się, że potrzebujemy mocno zaintegerować w startową konfigurację, która oferuje nam CRA. Między innymi względu na ograniczenia, które nakłada na nas CRA powstał Next.js, który ma zaoferować powiew świeżości w środowisku frontendu.
+
+## Next.js
+
+Jest to framework open-source oparty na Node.js i Babel stworzony przez Vercel. Korzysta on ze wszystkich zalet Reacta, a jego największą przewagą nad CRA jest wspieranie **server-side renderingu**. Wspiera on:
+
+- server-side rendering **(SSR)**
+- static exporting **(SSG)**
+
+w odróżnieniu od CRA, które opiera się na renderowaniu aplikacji po stronie klienta **(CSR)**. Powyższe różnice pozwalają na wygenerowanie stron po stronie serwera, co niewątpliwie jest wielką zaletą w **kontekście SEO i wydajności**.
+
+Ponadto głównymi zaletami zastosowania Next.js są:
+
+- znacznie **uproszczony routing** względem CRA - nie musimy instalować `react-router`, korzystamy z routera dostarczonego przez Next.js i strukurę nawigacji w naszej aplikacji określa struktura folderów w naszym projekcie (o czym więcej później)
+- ścieżki API - możemy stworzyć **własne REST API** dzięki Next.js i zasilać naszą aplikację w dane pochodzące np. z zewnętrznej **bazy PostgreSQL**,
+- mnogość konfiguracji startowych projektu - podczas tworzenia naszego projektu przy pomocy `create-next-app` możemy wybrać **startową konfigurację** zawierającą np. Typscript, styled-components lub saas. Oszczedzamy przy tym wiele czasu i nie musimy przy każdym projekcie powtarzać tych samych czynności,
+- server-side generation - przy użyciu `next export` możemy wyeksportować naszą aplikacje do **statycznego HTML**, który może być używany bez serwera z Node.js - na dowolnym hostingu stron statycznych lub CDN'ie.
+- łatwy deployment - platforma Vercel pochodzi od twórców Nexta, przy pomocy kilku kliknięć nasza aplikacja jest dostępna dla użytkowników z całego świata
+
+## Nasza pierwsza aplikacja Next.js
+
+Wymagania startowe: żeby wykorzystać ten artykuł w pełni rekomenduję znajomość Javascriptu (😛) i podstaw Reakta (tworzenie komponentów, zastosowanie JSX, przekazywanie propsów, używanie stanu w komponentach).
+
+## Początkowa konfiguracja
+
+Do utworzenia naszego pierwszego projektu potrzebować będziemy zainstalowanego Node.js w wersji 10.13 lub nowszej.
+
+Żeby wystartować nasz projekt używamy komendy:
+
+```jsx
+npx create-next-app
+// lub
+yarn create next-app
+```
+
+Do tego przy użyciu flagi `-e` możemy wybrać przykładowy projekt z gotową konfiguracją rozwiązań potrzebnych do naszych zastosowań. Jest ich naprawdę niezliczona ilość i można się z nimi zapoznać pod [tym linkiem.](https://github.com/vercel/next.js/tree/canary/examples)
+
+```jsx
+npx create-next-app -e with-typescript-styled-components
+// utworzy dla nas projekt Next.js ze wsparciem Typescript i styled-components
+```
+
+## Struktura projektu
+
+Po wykonaniu się powyższej komendy otrzymujemy projekt zawierający kilka folderów:
+
+- `public` zawiera pliki dostępne dla każdego użytkownika, wpisując `adres-strony.com/favicon.ico` zobaczymy domyślną faviconę z naszego projektu,
+- `styles` - domyślnie zawiera wszystkie style dla naszej aplikacji, zastosowane zostały CSS Modules, plik `global.css` zawiera style globalne, zas `*.module.css` odnoszą się do poszczególnych komponentów/stron.
+- `pages` - najważniejszy folder z punktu widzenia założeń Nexta. `index.js` jest w tym przypadku naszą stroną domową dostępną pod ścieżką `/`. Jest to znany nam już komponent Reaktowy o nazwie Home. `_app.js` jest naszym komponentem, który "oplata" pozostałe strony wyświetlane przez Nexta, tutaj też importujemy np. globalne style `globals.css`. W tym folderze ustalamy **całą strukturę nawigacyjną projektu**.
+
+## Komponent Head
+
+W celu dodania naszych własnych **tytułów stron, metatagów lub opisów** używamy komponentu `Head` pochodzącego z paczki `next/head`. Używamy go jak klasycznego tagu `head` w strukturze pliku _html_.
+
+```jsx
+<Head>
+  <title>My page title</title>
+  <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+  <meta property="og:title" content="My page title" key="title" />
+  <meta name="keyword" content="kangur, panda" />
+</Head>
+```
+
+## Komponent Layout
+
+Wykorzystując fakt, iż `_app.js` niejako "oplata" nasze pozostałe strony i jest wyświetlany zawsze, niezależnie od ścieżki - i tym samym wyświetlanej strony możemy przygotować komponent `Layout` zawierający powatrzające się elementy dla każdej ze stron - najczęściej umieszczona tam może być nawigacja, bądź zawierający ją `header` i/lub `footer`
+
+<Callout>
+  Jak pewnie zdążyłeś zauważyć do nazywania plików stosujemy konwencje nazywania
+  komponentów z wielkiej litery - Layout.js, zaś dla plików zawierąjacych strony
+  używamy tylko małych liter - index.js
+</Callout>
+
+Stwórzmy `Layout` zawierający style dla naszego głównego kontenera oraz wysietlający komponent nawigacji oraz `headera` dla każdej ze ścieżek:
+
+```jsx
+// Layout.js
+import styles from "../../styles/Layout.module.css"
+import Nav from "./Nav"
+import Header from "./Header"
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Nav />
+      <div className={styles.container}>
+        <main className={styles.main}>
+          <Header />
+          {children}
+        </main>
+      </div>
+    </>
+  )
+}
+
+export default Layout
+```
+
+```jsx
+// _app.js
+import Layout from "../components/Layout"
+import "../styles/globals.css"
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  )
+}
+
+export default MyApp
+```
+
+## Nawigacja i linki w Next.js
+
+Przygotujmy prosty komponent nawigacji i zepnijmy go z routerem z Nexta. W pierwszej kolejności importujemy `Link` z `next/link`. Mechanizm działania jest zbliżony do tego, który znamy z _react-router_. Jako parametr `href` podajemy ścieżkę. W naszym przypadku jest to strona główna oraz podstrona _About_ znadująca się pod ścieżką _/about._
+
+```jsx
+import Link from "next/link"
+import navStyles from "../styles/Nav.module.css"
+
+const Nav = () => {
+  return (
+    <nav className={navStyles.nav}>
+      <ul>
+        <li>
+          <Link href="/">Home</Link>
+        </li>
+        <li>
+          <Link href="/about">About</Link>
+        </li>
+      </ul>
+    </nav>
+  )
+}
+```
+
+Aby wszystko działało zgodnie z naszym zamysłem struktura katalogu _pages_ powinna zawierać w sobie plik `index.js` z zawartością, którą chcemy zobaczyć bedąc na ścieżce `/` oraz plik `about.js` zawierający treść odpowiadającą ścieżce `/about`.
+
+## Warstwa danych w naszej aplikacji
+
+Next.js opiera się na **dwóch metodach pre-renderingu**: _static generation_ i _server-side rendering_. Postaram się wytłumaczyć różnice pomiędzy nimi oraz metody zasilania naszej aplikacji danymi dla każdej z nich.
+
+Next oferuje nam trzy funkcje, które możemy wykorzystać do pobierania danych przy pre-renderingu:
+
+- `getStaticProps` - (_static generation_) - pobiera dane podczas budowania projektu
+- `getServerSideProps` - (_server-side rendering)_ - pobiera dane przy każdym zapytaniu
+- `getStaticPaths` - (_static generation_) - dynamicznie generuje ścieżki na podstawie pobranych danych
+
+## `getStaticProps`
+
+Funkcja ta pozwala nam na wykonanie pre-renderu strony na której została użyta podczas budowania projektu przy użyciu _propsów_ zwróconych przez `getStaticProps`.
+
+Wykonujemy w niej klasyczne zapytanie do końcówki API, w tym przypadku z użyciem `fetch`, pamiętając o dodaniu _async_ ponieważ jest to **kod asynchroniczny**. Następnie zwracamy z funkcji, znany również z CRA, klasyczny obiekt _props_, w ktorym możemy umieścić dowolne dane do wykorzystania wewnątrz naszego komponentu - strony.
+
+```jsx
+// article.js
+const Article = ({ articles }) => {
+  return <div>{articles.map(article => (
+		<h1>{article.title}</h1>
+	)}</div>
+};
+
+export const getStaticProps = async () => {
+  const res = await fetch(
+    `https://jsonplaceholder.typicode.com/posts?_limit=10`,
+  );
+  const articles = await res.json();
+
+  return {
+    props: {
+      articles,
+    },
+  };
+};
+```
+
+## `getServerSideProps`
+
+Kolejną metodą jest `getServerSideProps`. Za chwilkę wrócimy do jej szczegółowego omawiania. Wydaje mi się, że teraz jest najlepsza okazja, żeby pokazać w praktyce kolejne aspekty routingu w Next.js. Nasza strona ma wyświetlać artykuły pobrane z API. Na stronie głównej `/` wyświetlamy listę artykułów pod postacią linków, różniących się od siebie parametrem ID unikalnym dla każdego ze wpisów.
+
+Chcielibyśmy aby dostęp do każdego z nich znajdował się pod ścieżką `/article/:id`. Aby uzyskać takie działanie naszej nawigacji ponownie wykorzystamy **strukturę plików** w naszym projekcie.
+
+W katalogu `pages` służącym do definiowania naszych ścieżek tworzymy folder `article`, zaś w nim tworzymy plik o nazwie `[id].js`. Dzięki temu Next.js na podstawie danych pochodzących z API wygeneruje dla nas odpowiednie strony z treściami odpowiadającymi każdemu, unikalnemu ID artykułu zgodnie z kodem poniżej:
+
+```jsx
+const Article = ({ article }) => {
+  return (
+    <>
+      <h1>{article.title}</h1>
+      <p>{article.body}</p>
+    </>
+  )
+}
+
+export const getServerSideProps = async context => {
+  const res = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${context.params.id}`
+  )
+
+  const article = await res.json()
+
+  return {
+    props: {
+      article,
+    },
+  }
+}
+
+export default Article
+```
+
+Funkcja `getServerSideProps` zachowuje się bardzo podobnie do `getStaticProps` z poprzedniego przykładu. Zauważalną różnicą tutaj jest użycie argumentu _context_. Jest to obiekt zawierający wiele danych, które możemy wykorzystywać w naszych komponentach - [więcej w dokumentacji](https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering) . W tym przypadku interesuje nas klucz _params_ zawierający nasze ID artykułu. Dzięki "wyjęciu" go z naszej ścieżki możemy wykonać zapytanie do API zwracające nam potrzebne dane dla danego posta.
+
+## `getStaticPaths`
+
+Ostatnią funkcją oferowaną nam przez przez Nexta jest `getStaticPaths` - zalecana jest ona przy użyciu dynamicznych ścieżek i wymaga ona zdefiniowania listy ścieżek dla których ma zostać wyrenderowany HTML w momencie budowania projektu.
+
+Klucz `paths` wskazuje na ścieżki, które mają zostać poddane pre-renderingowi. W naszym przypadku nasz routing wskazuje na schemat `pages/article/[id].js`, a `paths` powinien wyglądać w następujący sposób:
+
+```jsx
+return {
+  paths: [
+    { params: { id: '1' } },
+    { params: { id: '2' } }
+  ],
+  fallback: ...
+}
+```
+
+Z powyższego kodu wynika, że Next wygereuje statyczne `article/1` i `article/2` podczas budowania projektu wykorzysując komponent strony znajdujący się w `pages/article/[id].js`.
+
+Zgodnie z konstrukcją odpowiedzi naszego API aby przygotować tablice paths musimy użyć funkcji `.map` na danych z serwera.
+
+```jsx
+export const getStaticPaths = async () => {
+  const res = await fetch(
+    `https://jsonplaceholder.typicode.com/posts?_limit=20`
+  )
+
+  const articles = await res.json()
+
+  const ids = articles.map(article => article.id)
+  const paths = ids.map(id => ({ params: { id: id.toString() } }))
+
+  return {
+    paths,
+    fallback: false,
+  }
+}
+```
+
+Drugim, nieomówionym jeszcze kluczem jest `fallback`. Również, podobnie jak `paths` jest on wymagany i przyjmuje wartość _true_ bądź _false_.
+
+- dla wartości `false` - w przypadku braku strony odpowiadającej ścieżce zwróconej przez `getStaticPaths` zostaniemy przeniesieni na **stronę 404**.
+- dla wartości `true` - zmienia się zachowanie `getStaticProps`. Ścieżka, która nie została wygenerowana podczas budowania **nie będzie skutkować stroną 404.** Zamiast tego Next.js zaserwuje nam _fallback page_ - więcej szczegółów pod [tym linkiem](https://nextjs.org/docs/basic-features/data-fetching#fallback-true). W wersji _fallback_ strony _propsy_ będą puste, a przy użyciu routera możemy sprawdzić czy strona _fallback_ została wyrenderowana - `router.isFallback` będzie wartości `true`.
+
+Dalej używamy `getStaticProps` tak samo jak w przykładzie niewykorzystującym `getStaticPaths`:
+
+```jsx
+export const getStaticProps = async context => {
+  const res = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${context.params.id}`
+  )
+
+  const article = await res.json()
+
+  return {
+    props: {
+      article,
+    },
+  }
+}
+```
+
+## Kiedy użyć każdej z opisanych funkcji?
+
+`getStaticProps`
+
+- dane wymagane do renderu strony są **dostępne już podczas budowania projektu**, znacznie przed zapytaniem przez użytkownika
+- dane pochodzą z **headless CMS**
+- dane **nie są unikalne** dla każdego z użytkowników
+- strona musi być prerenderowana, ze względów SEO oraz być bardzo szybka
+
+`getServerSideProps`
+
+- tylko wtedy gdy strona musi być pre-renderowana, a jej dane muszą być pobrane w momencie zapytania. Metoda ta będzie wolniejsza od `getStaticProps` ponieważ serwer musi przetworzyć rezultat przy każdym zapytaniu
+- jeśli dane nie muszą być pre-renderowane po stronie klienta warto rozważyć pobieranie danych po stronie klienta (np. [SWR](https://swr.vercel.app/))
+
+`getStaticPaths`
+
+- statyczny pre-rendering stron używający **dynamicznych ścieżek**
+
+## Podsumowanie
+
+Przedstawiłem podstawowe zagadnienia dotyczące Next.js. Zakres ten z pewnością pozwala na stawianie **pierwszych kroków** przy jego użyciu. Z pewnością jest jeszcze wiele aspektów, które wymagają szerszego omówienia. W następnych wpisach chętnie porusze zagadnienia **ścieżek API** (np. z użyciem Prismy) czy **deploymentu** projektów.
+
+Myśle, że warto być świadomym różnic pomiędzy Nextem, a powszechnym _create-react-app_ i wiedzieć kiedy zastosowanie każdego z nich jest słuszniejszym wyborem. Podejrzewam też, że w niedalekiej przyszłości Next.js mocno zyska na popularności i skutecznie będzie rozwiazywał problemy, któremu CRA nie jest w stanie sprostać w prosty i przyjemny dla dewelopera sposób.

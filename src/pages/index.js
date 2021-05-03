@@ -176,7 +176,7 @@ export const query = graphql`
       nodes {
         name
         childImageSharp {
-          fixed(width: 65) {
+          fixed(height: 65) {
             ...GatsbyImageSharpFixed
           }
         }

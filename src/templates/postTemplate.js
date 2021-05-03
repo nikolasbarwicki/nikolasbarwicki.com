@@ -76,12 +76,12 @@ const Paragraph = styled.p`
   font-family: "Karla", sans-serif;
   font-size: 2rem;
   line-height: 1.8;
-  margin-bottom: 3.5rem;
+  margin-bottom: 1.5rem;
 
   code {
     background-color: rgb(41, 44, 52);
     color: #fff;
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-family: monospace;
     border-radius: 0.5rem;
     padding: 4px 6px;
@@ -96,6 +96,15 @@ const UnorderedList = styled.ul`
   font-family: "Karla", sans-serif;
   font-size: 2rem;
   margin-bottom: 3.5rem;
+
+  code {
+    background-color: rgb(41, 44, 52);
+    color: #fff;
+    font-size: 1.6rem;
+    font-family: monospace;
+    border-radius: 0.5rem;
+    padding: 4px 6px;
+  }
 
   li {
     list-style: initial;
