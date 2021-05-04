@@ -1,9 +1,19 @@
+const {
+  NODE_ENV,
+  URL: NETLIFY_SITE_URL = "https://www.nikolasbarwicki.com",
+  DEPLOY_PRIME_URL: NETLIFY_DEPLOY_URL = NETLIFY_SITE_URL,
+  CONTEXT: NETLIFY_ENV = NODE_ENV,
+} = process.env
+const isNetlifyProduction = NETLIFY_ENV === "production"
+const siteUrl = isNetlifyProduction ? NETLIFY_SITE_URL : NETLIFY_DEPLOY_URL
+
 module.exports = {
   siteMetadata: {
     title: `Nikolas Barwicki`,
-    description: `Jestem Javascript developerem. To miejsce jest moim blogiem i portfolio. `,
+    description: `Cześć! To blog o Javascriptcie, którego autorem jest Nikolas Barwicki. Nowe artykuły, dotyczące zarówno frontendu oraz backendu, co dwa tygodnie. `,
     author: `Nikolas Barwicki`,
     siteUrl: `https://www.nikolasbarwicki.com`,
+    keywords: `javascript, programowanie, react, next, nextjs, typescript, deweloper`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -50,7 +60,7 @@ module.exports = {
       },
     },
     `gatsby-plugin-mdx`,
-    `gatsby-plugin-advanced-sitemap`,
+    `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-plugin-offline`,
       options: {
@@ -63,6 +73,27 @@ module.exports = {
         trackingIds: ["G-D0EKQ929S2"],
         pluginConfig: {
           head: true,
+        },
+      },
+    },
+    {
+      resolve: "gatsby-plugin-robots-txt",
+      options: {
+        resolveEnv: () => NETLIFY_ENV,
+        env: {
+          production: {
+            policy: [{ userAgent: "*" }],
+          },
+          "branch-deploy": {
+            policy: [{ userAgent: "*", disallow: ["/"] }],
+            sitemap: null,
+            host: null,
+          },
+          "deploy-preview": {
+            policy: [{ userAgent: "*", disallow: ["/"] }],
+            sitemap: null,
+            host: null,
+          },
         },
       },
     },

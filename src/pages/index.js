@@ -94,7 +94,7 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Home" />
+      <SEO title="Strona główna" />
 
       <Hero>
         <h1>Cześć, tu Nikolas</h1>
