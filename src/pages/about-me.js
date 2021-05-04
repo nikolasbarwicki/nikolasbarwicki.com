@@ -198,7 +198,10 @@ const AboutMe = ({ data }) => {
           </TextWrapper>
           <ImageWrapper>
             <StyledDots />
-            <StyledImage fluid={data.person.childImageSharp.fluid} />
+            <StyledImage
+              fluid={data.person.childImageSharp.fluid}
+              alt="Zdjęcie autora bloga"
+            />
           </ImageWrapper>
         </Container>
         <PurpleBackground />

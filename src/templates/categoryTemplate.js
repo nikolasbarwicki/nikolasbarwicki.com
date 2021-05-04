@@ -26,6 +26,7 @@ const Blog = ({ pageContext, data }) => {
         <Heading main={pageContext.category} secondary="Kategoria" />
         {data.allMdx.nodes.map(({ frontmatter }) => (
           <ArticleLink
+            key={frontmatter.title}
             date={frontmatter.date}
             title={frontmatter.title}
             url={`/blog/${frontmatter.slug}`}

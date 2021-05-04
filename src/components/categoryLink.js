@@ -34,7 +34,7 @@ const Wrapper = styled(Link)`
 const CategoryLink = ({ image, text, url }) => {
   return (
     <Wrapper to={url}>
-      <Img fixed={image} />
+      <Img fixed={image} alt={`Logo ${text}`} />
       <span>{text}</span>
     </Wrapper>
   )

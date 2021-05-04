@@ -96,6 +96,7 @@ const Blog = ({ data }) => {
         <h4>2021</h4>
         {data.allMdx.nodes.map(({ frontmatter }) => (
           <ArticleLink
+            key={frontmatter.title}
             date={frontmatter.date}
             title={frontmatter.title}
             url={`/blog/${frontmatter.slug}`}

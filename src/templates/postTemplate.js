@@ -135,7 +135,10 @@ const Post = ({ data }) => {
         <Category>{frontmatter.category}</Category>
         <Title>{frontmatter.title}</Title>
         <DetailsWrapper>
-          <Img fixed={data.file.childImageSharp.fixed} />
+          <Img
+            fixed={data.file.childImageSharp.fixed}
+            alt="Miniaturka zdjęcia autora bloga"
+          />
           <DetailsTextWrapper>
             <Author>Nikolas Barwicki</Author>
             <Date>{frontmatter.date}</Date>

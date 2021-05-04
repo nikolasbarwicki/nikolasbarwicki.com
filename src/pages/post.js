@@ -85,7 +85,10 @@ const Post = ({ data }) => {
           Using Shortcuts and serverless to build a personal Apple Health API
         </Title>
         <DetailsWrapper>
-          <Img fixed={data.file.childImageSharp.fixed} />
+          <Img
+            fixed={data.file.childImageSharp.fixed}
+            alt="Miniaturka zdjęcia autora bloga"
+          />
           <DetailsTextWrapper>
             <Author>Nikolas Barwicki</Author>
             <Date>21 styczeń 2021</Date>

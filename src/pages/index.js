@@ -110,6 +110,7 @@ const IndexPage = ({ data }) => {
         <ArticlesWrapper>
           {data.allMdx.nodes.map(({ frontmatter }) => (
             <ArticleLink
+              key={frontmatter.title}
               date={frontmatter.date}
               title={frontmatter.title}
               url={`/blog/${frontmatter.slug}`}
@@ -124,6 +125,7 @@ const IndexPage = ({ data }) => {
           <CategoriesGrid>
             {data.categories.group.map(({ fieldValue }) => (
               <CategoryLink
+                key={fieldValue}
                 image={getCategoryImage(fieldValue)}
                 text={fieldValue}
                 url={`/blog/category/${fieldValue}`}
@@ -139,6 +141,7 @@ const IndexPage = ({ data }) => {
         <ArticlesWrapper>
           {data.allMdx.nodes.map(({ frontmatter }) => (
             <ArticleLink
+              key={frontmatter.title}
               date={frontmatter.date}
               title={frontmatter.title}
               url={`/blog/${frontmatter.slug}`}

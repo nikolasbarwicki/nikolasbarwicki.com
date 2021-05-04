@@ -73,6 +73,7 @@ const categories = ({ data }) => {
           <CategoriesGrid>
             {data.allMdx.group.map(({ fieldValue }) => (
               <CategoryLink
+                key={fieldValue}
                 image={getCategoryImage(fieldValue)}
                 text={fieldValue}
                 url={`/blog/category/${fieldValue}`}
