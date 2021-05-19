@@ -1,0 +1,140 @@
+---
+title: "React Testing Library - jak zacząć"
+slug: react-testing-library-jak-zaczac
+date: 2021-05-16
+category: react
+published: true
+---
+
+### Wstęp
+
+Pisanie testów w na frontendzie nie jest tak powszechną praktyką jak w przypadku programistów backendowych. W wielu projektach testy **nie są stosowane wcale** lub są stosowane w niewłaściwy sposób.
+
+Wielu programistów postrzega testy jako obciążenie i coś co zabiera im czas przez co wolniej dowożą kod. Pozostali, którym udało się przekonać do testowania często uważa, że jest **praktycznie odwrotnie**.
+
+Otestowany kod **oszczedza nam czas** na manualnym przeklikiwaniu się przez naszą aplikację czy sprawdzaniu _edge case'ów_ przy **zmianach kodu**.
+
+Głównym zadaniem pisania testów jest zagwarantowanie programiście, że tworzona przez niego aplikacja zachowuje się w **oczekiwany przez nas sposób** w momencie, kiedy korzysta z niej użytkownik. Ponadto testy powinny dawać nam pewność, że dodawanie nowych funkcjonalności do tych już istniejących **nie zepsuje tego co już działało** bez zarzutów.
+
+### React Testing Library
+
+W tej serii wpisów będę poruszać kwestie związane z testowaniem przy użyciu **Jest i React Testing Library**. To połączenie jest obecnie najbardziej powszechne w świecie Reakta, a fakt, że dostajemy je _out of the box_ wraz z create-react-app też świadczy o jego ogólnym uznaniu.
+
+React Testing Library (RTL) nie jest tylko biblioteką - jest także całą **filozofią testowania** i **zbiorem najlepszych praktyk**. Sposób w jaki RTL została stworzona niejako zachęca nas do ich stosowania.
+
+<Callout>
+  The more your tests resemble the way your software is used, the more
+  confidence they can give you.
+
+Kent C. Dodds
+
+</Callout>
+
+**Kent - twórca Testing Library** - chce nas przekonać, żeby testować działanie aplikacji w taki sposób w jaki robiłby to jej końcowy użytkownik. Sposób w jaki dana funkcjonalność została napisana może się zmieniać wraz z rozwojem aplikacji. Pod warunkiem zachowania stałej, spełniającej założenia funkcjonalności aplikacji testy nadal powinny przechodzić.
+
+Ponadto, kolejną dobrą praktyką jest pisanie naszych aplikacji zgodnie z zasadami dostępności (_ang. accessibility_). Testing Library zachęca do wyszukiwania węzłów DOM poprzez _accessibillity markers_ - w przypadku kiedy nasza aplikacja ich nie posiada lub są źle zaimplementowane - nie jesteśmy w stanie dobrze napisać testów, a co gorsze - osoby niepełnosprawne lub korzystające z czytników, innych urządzeń mobilnych nie mogą korzystać z naszej aplikacji we właściwy sposób.
+
+### create-react-app
+
+Po stworzeniu nowej aplikacji przy pomocy `create-react-app` naszym oczom ukazuje się wiele plików w folderze projektu. Obecnie interesuje nas jedynie _App.test.js._
+
+Jest szuka trzech rodzajów plików zawierających testy:
+
+- pliki z suffixem `.js` w folderze `__tests__`
+- pliki z suffixem `.test.js`
+- pliki z suffixem `.spec.js`
+
+Zalecane jest umieszczanie plików z testami (lub folderów `__tests__`) w bezpośrednim sąsiedztwie kodu, który mają testować - tak aby relatywne ścieżki importów były jak najkrótsze.
+
+Wpisane w oknie terminalu `npm test` uruchamia Jest w trybie _watch_. Tryb ten powoduje, że Jest wyszukuje zmian w plikach względem ostatniego _commit'u_.
+
+Po wykonaniu `npm test` - jeśli nic nie zmienialiśmy w plikach dostarczonych przez _create-react-app_ powinniśmy otrzymać potwierdzenie pomyślnego zaliczenia testu znajdującego się w pliku _App.test.js._
+
+### Nasz pierwszy test
+
+```jsx
+import { render, screen } from "@testing-library/react"
+import App from "./App"
+
+test("renders learn react link", () => {
+  render(<App />)
+  const linkElement = screen.getByText(/learn react/i)
+  expect(linkElement).toBeInTheDocument()
+})
+```
+
+Przeanalizujmy każdy z elementów naszego testu po kolei.
+
+Zaczynamy od importów. Zrozumienie z jakiej biblioteki importujemy jakie elementy bardzo ułatwia odnalezienie się w całym ekosystemie testowania.
+
+```jsx
+// importujemy metody render i screen z RTL, ich wykorzystanie zostanie opisane niżej
+import { render, screen } from "@testing-library/react"
+// importujemy komponent/y, które zamierzamy testować w tym pliku
+import App from "./App"
+```
+
+Globalna metoda testu przyjmująca dwa argumenty:
+
+- opis testu będący zwykłym _stringiem_. Pozwala nam lepiej rozumieć, które testy przechodzą, a które wręcz przeciwnie
+
+```jsx
+test("renders learn react link", () => {})
+```
+
+- funkcja testująca - zasada jej działania jest prosta - test nie przechodzi jeśli w trakcie działania funkcji zostanie wyrzucony błąd. Asercje wyrzucają błąd jeśli założenie testu nie zostanie spełnione. Wniosek: brak błędu - test zaliczony.
+
+```jsx
+// zgodnie z tym wnioskiem - test przejdzie
+test("renders learn react link", () => {})
+
+// ten test nie przejdzie
+test("renders learn react link", () => {
+  throw new Error("test failed")
+})
+```
+
+### Trzy fazy testowania komponentu
+
+**Wynderowanie komponentu**
+
+```jsx
+render(<App />)
+```
+
+Metoda `render` tworzy wirtualny DOM dla argumentu - w tym przypadku `<App />`
+
+**Odnalezienie elementu w DOM**
+
+```jsx
+const linkElement = screen.getByText(/learn react/i)
+```
+
+`screen` pochodzące również z \*Testing Library **\***pozwala nam "wyjmować" interesujące nas elementy z DOM. `screen.getByText` wyszukuje element w DOM po wyświetlanym tekście. Może przyjąć za argument _stringa_ - "Learn React" ale zalecane jest stosowanie _regular expression_. W tym przypadku flaga `/i` dodaje nam ignorowanie wielkości liter.
+
+**Interakcja z elementem**
+Ta część jest opcjonalna. W tym miejscu możemy np. zasymulować interakcje użytkownika - kliknięcie na element, najechanie na niego kursorem lub wpisanie tekstu do inputu.
+
+**Sprawdzenie czy UI jest w oczekiwanym przez nas stanie - asercja (_ang. assertion_)**
+
+```jsx
+expect(screen.getByText(heading)).toBeInTheDocument()
+```
+
+W tym miejscu dzieje się cała magia testu - ta linijka decyduje o tym czy test przejdzie czy też nie. W przypadku zmiany argumentu `screen.getByText` z `/learn react/i` na `/learn angular/i` test nie przejdzie - to chyba podwójnie dobrze w takie sytuacji 😛.
+
+### RTL, Jest, JestDOM, Dom Testing Library
+
+Na samym początku wiele osób zbyt szybko wchodzi w pisanie testów nie zastanawiając się skąd tak naprawdę importuje poszczególne elementy i jak je poprawnie wykorzystywać. Poniżej wypisałem wszystkie główne składowe, które będziemy wykorzystywać podczas pisania testów.
+
+**React Testing Library** - renderuje komponenty do wirtualnego DOM, przeszukuje wirtualny DOM pozwala na wchodzenie w interakcję z wirtualnym DOM. Wymaga _test runnera_, który odszuka testy, uruchomi je i sprawdzi asercje (Jest, Mocha, Jasmine). Zbudowane na podstawie Dom Testing Library - zawiera wszystko co DTL oraz posiada dodane metody _render, cleanup_ i _act_.
+
+**Jest** - test runner - odszukuje, uruchamia i sprawdza czy testy przechodzą. Dostarcza m. in. metodę `expect()`.
+
+**Jest DOM** - uzupełnia React Testing Library - dodaje nowe matchery do Jest'a: `toBeDisabled()`, `toBeEmpty()`, `toBeInTheDocument()`, `toBeRequired()`, `teBeVisible()`, `toHaveValue()`. Domyślnie zawarty w _create-react-app_. Importowany jest przed każdym testem w pliku `src/setupTests.js`.
+
+**Dom Testing Library** - biblioteka służąca do testowania węzłów DOM - daje nam możliwość znajdowania elementów w sposób podobny do tego w jaki zrobiłby to użytkownik na stronie np. `getByText`, `getByRole`, `getByLabelText`, `getByPlaceholderText`.
+
+### Podsumowanie
+
+Wpis zdążył urosnąć do konkretnych rozmiarów, a nie udało się napisać jeszcze ani jednego testu. Potwierdza to, że świat testów jest bardzo rozległy. W kolejnych wpisach poruszę tematy, których znajomość pozwoli nam na testowanie złożonych aplikacji Reaktowych.
