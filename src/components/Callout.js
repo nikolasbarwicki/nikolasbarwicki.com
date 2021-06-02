@@ -10,6 +10,15 @@ const Blockquote = styled.blockquote`
   background-color: #e9f9ff;
   border-left: 4px solid #58cfff;
 
+  code {
+    background-color: rgb(41, 44, 52);
+    color: #fff;
+    font-size: 1.6rem;
+    font-family: monospace;
+    border-radius: 0.5rem;
+    padding: 4px 6px;
+  }
+
   ${({ variant }) =>
     (variant === "yellow" &&
       css`

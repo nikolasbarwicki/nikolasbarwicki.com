@@ -1,0 +1,142 @@
+---
+title: "Blocked by CORS policy"
+slug: blocked-by-cors-policy
+date: 2021-05-30
+category: javascript
+published: true
+---
+
+Każdy frontendowiec spotkał się, bądź spotka się z podobnym błędem w konsoli przeglądarki. CORS (_Cross-Origin Resource Sharing_) jest mechnizmem umożliwiającym wymiane zasobów pomiędzy stronami odróżniającymi się od siebie innym _origin_.
+
+### Czym jest origin
+
+Składa się on z trzech elementów - protokołu + domeny + portu.
+
+```jsx
+// https://kangur.com:80
+// protokół - https
+// domena - kangur.com
+// port - 80
+```
+
+Jeśli któryś z tych trzech elementów różni się pomiędzy dwoma _originami_ podczas zapytania w konsoli przeglądarki zobaczymy błąd CORS.
+
+### Przykład
+
+Tworzymy aplikacje Reactową która działa na `localhost:3000`, wykonuje ona zapytania do naszego API śmigającego na `localhost:5000` - jest ono blokowane właśnie ze względu na zaimplementowane w przeglądarce zasady bezpieczeństwa - w tym przypadku _same-origin policy_.
+
+Podobne zapytanie działałoby w stytuacji, w której zapytanie jest wykonywane z `kangur.com` do `kangur.com`. W przypadku zapytania z `kangur.com` na `panda.com` - ponownie zobaczymy ten sam błąd.
+
+### Dlaczego i co możemy z tym zrobić?
+
+Jest to jedna z podstawowych zasad bezpieczeństwa implementowanych w przeglądarce.
+
+Jeśli mamy dostęp do backendu - z powodzeniem naprawimy ten problem właśnie tam. W przeciwnym wypadku mamy problem.
+
+Mechanizm ten ma uniemożliwiać komunikacje dwóch różnicych aplikacji, których komunikacja dla nas jest niepożądana. Nie chcemy np. żeby dowolna osoba z dowolnej aplikacji mogła wykonywać zapytania do naszego API.
+
+### Ingerencja w backend
+
+Przygotowałem proste API oparte na Express.js:
+
+```jsx
+const express = require("express")
+
+const app = express()
+
+app.get("/user", (req, res) => {
+  res.json({ name: "Andrzej" })
+})
+
+app.listen(5000)
+```
+
+W tym przypadku na `localhost:5000/user` możemy wykonać zapytanie _GET_ i powinniśmy otrzymać JSON'a zawierającego dane o naszym użytkowniku.
+
+Klient jest odpalony na `localhost:3000` - jak się pewnie domyślasz. Z zapytania `await fetch("http://localhost:5000/user")` nie otrzymamy nic więcej niż błąd o treści:
+
+<Callout variant="red">
+  Access to fetch at http://localhost:5000/user from origin
+  http://localhost:3000 has been blocked by CORS policy: No
+  'Access-Control-Allow-Origin' header is present on the requested resource. If
+  an opaque response serves your needs, set the request's mode to 'no-cors' to
+  fetch the resource with CORS disabled.
+</Callout>
+
+### Response headers
+
+Zapytanie zakończy się sukcesem wtedy gdy wartośc _Response Header_ `Access-Control-Allow-Origin` będzie taka sama jak wartość _Request Header_ `Origin` lub jako _wildcard_ "`*`".
+
+Sprawdźmy to.
+
+```jsx
+app.get("/user", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+
+  res.json({ name: "Andrzej" })
+})
+```
+
+Dodaliśmy wymagany _response header_. Przy ponownym wykonaniu zapytania `await fetch("http://localhost:5000/user")` otrzymujemy odpowiedź z serwera z oczekiwanymi przez nas danymi, a w zakładce _Network_ przeglądarki pojawił się _response header_ `Access-Control-Allow-Origin: http://localhost:3000`.
+
+Przeglądarka poza sprawdzeniem _origin_ sprawdza też dozwolone metody, pozostałe nagłówki czy ciasteczka.
+
+W przypadku sprawdzania metod takich jak PUT, PATCH, DELETE przeglądarka wysyła zapytanie metoda OPTIONS do serwera w celu sprawdzenia czy powyższe metody są dozwolone i następujące po nim zapytanie ma prawo zakończyć się sukcesem.
+
+Przy obecnej konfiguracji _response header_ zapytania metodą OPTIONS zawiera wartosć `Allow: GET,HEAD`.
+
+W naszym wypadku zapytanie z metodą np. PUT zakończyłoby sie błędem. Wymagana jest dodanie kolejnych nagłówków.
+
+```jsx
+app.get("/user", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+  res.setHeader("Access-Control-Request-Method", "PUT")
+
+  res.json({ name: "Andrzej" })
+})
+```
+
+Po tym zabiegu wykonanie zapytania metodą PUT jest już możliwe.
+
+Możemy również dodawać inne nagłówki - na przykład zawierające `"Content-Type"` lub możliwość wysyłania ciasteczek lub nagłówków związanych z autoryzacją. Tą drugą opcję umożliwiamy dodając nagłówek
+
+```jsx
+app.get("/user", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+  res.setHeader("Access-Control-Request-Method", "PUT")
+  res.setHeader(("Access-Control-Allow-Credentials": true))
+
+  res.json({ name: "Andrzej" })
+})
+```
+
+### Zastosowanie middleware
+
+W przypadku [node.js](http://node.sj) i express.js przychodzi nam z pomocą paczka o nazwie (o dziwo!) `cors`. Po jej zainstalowaniu `npm i cors` możemy definować nasze nagłówki w bardziej przystępny sposób.
+
+```jsx
+const express = require("express")
+const cors = require("cors")
+
+const app = express()
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET, POST, PUT"],
+    credentials: true,
+  })
+)
+
+app.get("/user", (req, res) => {
+  res.json({ name: "Andrzej" })
+})
+
+app.listen(5000)
+```
+
+Paczki `cors` używamy jako standardowego middleware, a w argumencie podajemy obiekt konfiguracyjny. Powyższa konfiguracja odpowiada tej, którą zastosowaliśmy w poprzednich przykładach.
+
+### Podsumowanie
+
+Temat CORS'ów przeraża najcześciej frontendowców ale paradoksalnie to na backendzie rozwiązuje się wszystkie "problemy" z nim związane. Mam nadzieje, że temat został wyjaśniony na tyle dobrze, że każdy frontendowiec robiący proste API dla swoich aplikacji będzie wiedział jak poradzić sobie z takim błędem w przeglądarce.
