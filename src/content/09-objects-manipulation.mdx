@@ -1,0 +1,127 @@
+---
+title: "Działania na obiektach"
+slug: dzialania-na-obiektach
+date: 2021-06-27
+category: javascript
+published: true
+---
+
+Metody dostępne dla tablic są znane każdemu JS devowi, używane są praktycznie codziennie a ich użycie jest bardzo intuicyjne. Gorzej ma sie sprawa z obiektami. Obiekty są bardziej skomplikowanymi strukturami i metody dostępne dla tablic nie mają zawsze swoich bezpośrednich odpowiedników dla obiektów.
+
+### Object.keys(obj)
+
+Zwróci tablicę kluczy
+
+```jsx
+const job = {
+    level: "senior",
+    salary: 15000
+};
+
+Object.keys(job); // [ 'level', 'salary' ]
+```
+
+Sprawdzanie czy obiekt jest pusty
+
+```jsx
+const isObjectEmpty = Object.keys(job).length === 0;
+
+const emptyObj = {};
+const nonEmptyObj = {level: "senior"};
+
+Object.keys(emptyObj).length === 0; // true
+Object.keys(nonEmptyObj).length === 0; // false
+```
+
+### Object.values(obj)
+
+Zwróci tablice wartości
+
+```jsx
+const job = {
+	level: "senior",
+	salary: 15000
+};
+
+Object.values(job); // [[ 'senior', 15000 ]
+```
+
+Sumowanie wartości z obiektu:
+
+```jsx
+const shoppingList = {
+	"🫐": 9.00,
+	"🍓": 4.50,
+	"🍋": 2.90
+}
+
+const prices = Object.values(shoppingList); // [ 9, 4.5, 2.9 ]
+
+const total = prices.reduce((sum, price) => sum + price); // 16.4
+```
+
+### Object.entries(obj)
+
+zwróci tablicę par `[klucz, wartość]`
+
+```jsx
+const job = {
+	level: "senior",
+	salary: 15000
+};
+
+Object.entries(job); // [ [ 'level', 'senior' ], [ 'salary', 15000 ] ]
+```
+
+Iterowanie po obiekcie:
+
+```jsx
+const shoppingList = {
+	"🫐": 9.00,
+	"🍓": 4.50,
+	"🍋": 2.90
+}
+
+Object
+    .entries(shoppingList)
+    .forEach(([key, value]) => console.log(`${key}: ${value}`))
+    // '🫐: 9', '🍓: 4.5', '🍋: 2.9'
+```
+
+Sprawdzanie czy cena jest większa od 5.00:
+
+```jsx
+for (const [fruit, price] of Object.entries(shoppingList)) {
+  if (price > 5) {
+    console.log(fruit); // '🫐'
+  }
+}
+```
+
+### .map dla obiektów
+
+Obiekty nie mają metod odpowiednich dla tablic takich jak np. `map` lub `filter`. Na szczęście możemy przy użyciu innych metod uzyskać taki sam efekt końcowy:
+
+- `Object.entries(obj)` żeby uzyskać pary klucz/wartość,
+- Zastosowanie pożądanej metody dostępnej dla tablic
+- Przywrócenie uzyskanej tablicy z powrotem do obiektu przy użyciu `Object.fromEntries(arr)`
+
+```jsx
+const shoppingList = {
+	"🫐": 9.00,
+	"🍓": 4.50,
+	"🍋": 2.90
+}
+
+const doublePrices = Object.fromEntries(
+  Object
+    .entries(shoppingList)
+    .map(([key, value]) => [key, value * 2])
+);
+
+console.log(doublePrices) // { '🫐': 18, '🍓': 9, '🍋': 5.8 }
+```
+
+### Podsumowanie
+
+Znając powyższe metody praca z obiektami w Javascript jest znacznie przyjemniejsza. Uzyskujemy łatwość pracy z tablicami w znacznie bardziej złożonych strukturach danych.
