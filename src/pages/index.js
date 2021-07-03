@@ -92,6 +92,8 @@ const IndexPage = ({ data }) => {
       .childImageSharp.fixed
   }
 
+
+
   return (
     <Layout>
       <SEO title="Strona główna" />
@@ -108,7 +110,7 @@ const IndexPage = ({ data }) => {
       <Latest>
         <Heading main="Najnowsze artykuły" secondary="Blog" />
         <ArticlesWrapper>
-          {data.allMdx.nodes.map(({ frontmatter }) => (
+          {data.latest.nodes.map(({ frontmatter }) => (
             <ArticleLink
               key={frontmatter.title}
               date={frontmatter.date}
@@ -123,7 +125,7 @@ const IndexPage = ({ data }) => {
         <Container>
           <Heading main="Kategorie" secondary="Blog" alignLeft />
           <CategoriesGrid>
-            {data.categories.group.map(({ fieldValue }) => (
+            {data.categories.group.sort((a, b) => b.totalCount - a.totalCount).map(({ fieldValue }) => (
               <CategoryLink
                 key={fieldValue}
                 image={getCategoryImage(fieldValue)}
@@ -139,7 +141,7 @@ const IndexPage = ({ data }) => {
       <Latest>
         <Heading main="Popularne artykuły" secondary="Blog" />
         <ArticlesWrapper>
-          {data.allMdx.nodes.map(({ frontmatter }) => (
+          {data.popular.nodes.map(({ frontmatter }) => (
             <ArticleLink
               key={frontmatter.title}
               date={frontmatter.date}
@@ -162,10 +164,23 @@ export const query = graphql`
         }
       }
     }
-    allMdx(
+    latest: allMdx(
       sort: { order: DESC, fields: frontmatter___date }
       limit: 3
       filter: { frontmatter: { published: { eq: true } } }
+    ) {
+      nodes {
+        frontmatter {
+          date(locale: "PL", formatString: "MMM DD")
+          slug
+          title
+        }
+      }
+    }
+    popular: allMdx(
+      sort: { order: DESC, fields: frontmatter___date }
+      limit: 3
+      filter: { frontmatter: { published: { eq: true }, popular: { eq: true } } }
     ) {
       nodes {
         frontmatter {
@@ -188,6 +203,7 @@ export const query = graphql`
     categories: allMdx {
       group(field: frontmatter___category, limit: 4) {
         fieldValue
+        totalCount
       }
     }
   }

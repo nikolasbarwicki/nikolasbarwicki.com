@@ -1,0 +1,296 @@
+---
+title: "Podstawy formularzy w React"
+slug: podstawy-formularzy-w-react
+date: 2021-06-13
+category: react
+published: true
+---
+
+### Wstęp
+
+Formularze w pracy frontend developerów są **nieodłączną** częścią ich codziennych obowiązków. Pozwalają one na przyjmowanie danych od użytkowników w przyjazny dla nich sposób. Są głównym łącznikiem między interfejsem aplikacji a jej logiką biznesową czającą się na backendzie.
+
+Dobrze przygotowane formularze są kluczowe dla wysokiej jakości UX naszej aplikacji. Mogą być one tak proste jak **jeden input** z imieniem użytkownika i przyciskiem wykonującym konkretną akcje ale także moga być to wieloetapowe formularze zawierające przeróżne typy pól pozwalające na wprowadzenie bardzo **szczegółwych danych**.
+
+Formularze poza sferą czysto wizualną kryją w sobie wiele logiki. Wyświetlanie części formularza może być zależne od wartości podanych na wcześniejszych etapach jego wypełniania. Są one także pierszwszą barierą strzegącą baze danych naszej aplikacji przed wprowadzaniem błędnych danych - **o złych typach, z brakującymi wartościami**.
+
+Z tych powodów swobone rozumienie zagadnień z nimi związanymi, a także sprawne używanie narzędzi pozwalających na ich tworzenie w szybszy i bardziej przyjazny dla dewelopera sposób jest **bardzo ważne**.
+
+### Dostępne rozwiązania
+
+Być może miałeś okazję usłyszeć o takich bibliotekach jak [Formik](https://formik.org/) lub [react-hook-form](https://react-hook-form.com/). Są one naturalnym wyborem ponieważ dzięki nim nie musimy w każdym projekcie pisać dodatkowych **dziesiątek linii kodu**, tworzyć od zera walidacji czy zastanawiać się w jaki sposób chcemy przechowywać stan naszego formularza.
+
+Zrozumienie podstaw i działania powyższych bibliotek z pewnością przyda się w codziennej pracy. W szczególności gdy okaże się że nasz ulubiony (tu wstaw nazwę swojej ulubionej bilbioteki do formularzy) musi zostać zamieniony w naszym projekcie na inne rozwiązanie.
+
+W dzisiejszym wpisie chciałbym pokazać absolutne podstawy tworzenia formualarzy w Reakcie przy użyciu jedynie hook'ów. Dorzucimy banalna walidację oraz obsłużymy wysłanie danych z formularza.
+
+### Struktura HTML
+
+Nasz komponent będzie zbudowany w oparciu o tag `<form/>`. Używany jest on właśnie do tworzenia formularzy HTML przyjmujących **wartości od użytkownika**. Wewnątrz tego tagu możemy umieścić conajmniej jeden z wymienionych elementów: `<input>`, `<textarea>`, `<button>`, `<select>`, `<option>`, `<optgroup>`, `<fieldset>`, `<label>`, `<output>`. Zastosowaniem każdego z nich zajmiemy się w dalszych wpisach. Dziś budujemy najprostrzy możliwy formularz przyjmujących tylko tekst od użytkownika więc ograniczymy wykorzystanie tych elementów do **absolutnego minimum**.
+
+Najczęściej użuwanym elementem jest `<input>`. W zależności od nadanego mu typu zmienia się jego wygląd, zachowanie oraz typ danych jakie może przyjąć:
+
+- `text` - **jednolinijkowe** pole dla danych tekstowych
+- `radio` - przycisk typu *radio* - umożliwia wybór **jednego z wielu** wariantów
+- `checkbox` - pole wyboru - **wybór zero lub więcej wariantów**
+- `submit` - przycisk **wysłania** formularza
+- `button` - klikalny przycisk.
+
+Wraz z polem `<input>` powszechnie wykorzystuje się element `<label/>` będący etykietą przypisaną do danego pola. Jest to bardzo ważny element z wielu powodów. Jest istotny w przypadku czytników ekranu ponieważ pozwala **identyfikować tekst etykiety** po kliknięciu odpowiadające mu pole. Jest pomocny również w przypadku klikania na pola niewielkich rozmiarów (jak *radio button* lub *checkbox*) ponieważ kliknięcie etykiety powoduje przełączenie się odpowiadającego mu pola.
+
+Przejdźmy do pisania naszego kodu:
+
+```jsx
+<form>
+  <div>
+    <label htmlFor="firstName">First Name</label>
+    <input id="firstName" />
+  </div>
+
+  <div>
+    <label htmlFor="lastName">Last Name</label>
+    <input id="lastName" />
+  </div>
+
+  <div>
+    <label htmlFor="email">Email address</label>
+    <input id="email" />
+  </div>
+</form>;
+```
+
+Jak widzsz do etykiety dodany został atrybut `htmlFor` będący Reaktowym odpowiednikiem HTML'owego `for`. Gwarantuje on nam prawidłowe powiązanie odpowiadających sobie etykiet i pól pod warunkiem nadania tej samej wartości w atrybucie `htmlFor` oraz `id` naszego pola. Inną praktyką, która nie wymaga podawania atrybutu `htmlFor` jest zagnieżdżenie elementu `<input>` w odpowiadającym mu elemencie `<label/>`.
+
+Następnym krokiem jest dodanie brakujących właściwości do naszych pól tekstowych.
+
+```jsx
+<input
+    id="firstName"
+    name="firstName"
+    placeholder="First Name"
+    type="text"
+/>
+```
+
+`name` najczęściej jest takie same jak nadane wcześniej `id` - definiuje ono nazwę naszego pola i pozwala odwoływać się do niego w Javascriptcie lub bezpośrednie do zawartości wysłanego formularza. Aby zdefiniować tekst pojawiający się wewnątrz pola przed wprowadzeniem do niego jakichkolwiek wartości używamy atrybutu `placeholder`. Typ pola pozwala nam na bardzo prostą walidację (typ `email` będzie sprawdzać poprawność adresu email - czy zawiera on np. znak @) lub zmianę wyglądu wprowadzanych danych (typ `password` przedstawi wprowadzony tekst pod postacią czarnych kółek).
+
+Ostatnim i najważniejszym elementem jest połączenie wartości naszego pola z przechowywanym przez nas **stanem wewnątrz aplikacji/komponentu**.
+
+Tutaj pojawia się pierwsza znacząca różnica pomiędzy czystym HTML-em a Reaktem. W tym pierwszym elementy formularza zachowują najczęściej zachowują swój własny stan, który jest aktualizowany na podstawie danych wejściowych podawanych przez użytkownika. Natomiast w Reakcie zmienny stan komponentu jest zazwyczaj przechowywany wew stanie danego komponentu. W naszym przypadku zrobimy to z zastosowaniem hook'a `useState`. Rozpoczniemy od stworzenia stanu zawierjącego obiekt ze wszystkimi wartościami pól:
+
+```jsx
+import { useState } from "react";
+
+// [...]
+
+const [values, setValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: ""
+});
+```
+
+Następnie do każdego z pól dodamy artybut `value` wskazujący na odpowiedni element naszego zdefiniowanego stanu:
+
+```jsx
+  <input
+    /* ... */
+    value={values.firstName}
+  />
+
+  <input
+    /* ... */
+    value={values.lastName}
+  />
+
+  <input
+    /* ... */
+    value={values.email}
+  />
+```
+
+Dzięki temu wyświetlane dane zawsze będą odpowiadały wartości `values` z naszego `useState` - stan reaktowy jest tutaj jedynym źródlem prawdy. Brakuje nam jeszcze funkcji aktulizującej reaktowy stan na bieżąco w miare wpisywania ich przez użytkownika do odpowienich pól:
+
+```jsx
+const handleChange = (event) => {
+  setValues((values) => ({
+    ...values,
+    [event.target.name]: event.target.value,
+  }));
+};
+
+// nie możemy zapomnieć o dodaniu naszego handlera do atrybutów onChange
+<>
+  <input
+    /* ... */
+    value={values.firstName}
+    onChange={handleChange}
+  />
+
+  <input
+    /* ... */
+    value={values.lastName}
+    onChange={handleChange}
+  />
+
+  <input
+    /* ... */
+    value={values.email}
+    onChange={handleChange}
+  />
+</>
+```
+
+Z uwagi na fakt, iż przechowujemy wszysktie wartości pól w jednym obiekcie musimy zastosować *spread operator* umożliwający łatwą aktulaizację tylko wybranej przez nas właściwości obiektu. `event` jest obiektem zawierającym wszystkie informację o zdarzeniu wywołanym przez użytkownika - w tym wypadku wciśniecia przycisku klawiatury. `[event.target](http://event.target)` wskazuje na referencje do elementu, do którego zdarzenie zostalo pierwotnie wysłane zaś właściwości `name` i `value` odpowiednio identyfikują nazwę elementu `<input>` oraz jego wartość.
+
+Po zastosowaniu powyższych zmian w kodzie mamy gwarancje, że wartości pól są przechowywane w naszym hook'u stanu, a każda próba zmiany wartości pól przez użytkownika będzie aktualizowała nasz reaktowy stan.
+
+### Wstęp do walidacji
+
+Na potrzeby tego formularza załóżmy, że każde ze zdefiniowanych przez nas pól jest wymagane. Częstą praktyką jest walidowanie pola w momencie, w którym użytkownik je zdezaktywował klikając poza nim. W naszym przypadku chcemy poinformować użytkownika, że zdezaktywował pole bez wproadznaia do niego żadnych wartości jeszcze przed próbą wysłania formularza. Wykorzystamy do tego atrybut `onBlur` naszego elementu `<input>`. Wywołuje on przypisaną funkcje w momencie opuszczenia pola przez użytkownika.
+
+Do tego będziemy potrzebować kolejnych porcji stanu w naszym komponencie. Stwórzmy analogiczne stany do obiektu `values` lecz tym razem będziemy przechowywać informacje o tym, czy użytkownik aktywował pole tekstowe:
+
+```jsx
+const [touched, setTouched] = useState({
+    firstName: false,
+    lastName: false,
+    email: false
+  });
+```
+
+oraz komunikaty błędów dla każdego z pól:
+
+```jsx
+const [errors, setErrors] = useState({
+    firstName: null,
+    lastName: null,
+    email: null
+  });
+```
+
+Przygotujmy nasz *handler* obsługujący opuszczenie pola przez użytkownika:
+
+```jsx
+const handleBlur = (event) => {
+  // 1. aktualizujemy stan sprawdzający aktywowanie pola
+  setTouched((touched) => ({
+    ...touched,
+    [event.target.name]: true,
+  }));
+
+  // 2. jeśli pole zostało aktywowane i nadal nie ma wartości ustawiamy tekst błędu na "Required"
+  if (!touched[event.target.name] && !values[event.target.name]) {
+    setErrors((errors) => ({
+      ...errors,
+      [event.target.name]: "Required",
+    }));
+  }
+};
+```
+
+Dodajmy nasz *handler* do pól:
+
+```jsx
+<>
+  <input
+    /* ... */
+    onBlur={handleBlur}
+  />
+
+  <input
+    /* ... */
+    onBlur={handleBlur}
+  />
+
+  <input
+    /* ... */
+    onBlur={handleBlur}
+  />
+</>
+```
+
+Dzięki powyższym zmianom w sytuacji, w której aktywujemy pole, nie wprowadzimy do niego żadnych wartości a finalnie je dezaktywujemy zakutalizowany zostaje stan `touched` na `true` oraz komunikat błedu `errors` na `"Required"`. Niestety użytkownik nie będzie w stanie zauważyć efektów naszej pracy ponieważ nigdzie nie wyświetlamy naszego komunikatu błedu w UI.
+
+### Wyświetlanie błędów
+
+Potrzebujemy dodać komponent odpowiedzialny za wyświelanie błędu.
+
+```jsx
+<div>
+  <label htmlFor="firstName">First Name</label>
+  <input
+    id="firstName"
+    name="firstName"
+    placeholder="First Name"
+    value={values.firstName}
+    onChange={handleChange}
+    onBlur={handleBlur}
+    type="text"
+  />
+  {errors.firstName ? (
+    <div style={{ color: "red" }}>{errors.firstName}</div>
+  ) : null}
+</div>
+```
+
+Domyślnie opertor warunktowy zwróci wartosć `null` ponieważ odpowiadający polu `errors` jest *falsy*. W przypadku zadziałania naszej funkcji *handleBlur* w oczekiwany przez nas sposób `errors.firstName` stanie się *truthy* i zwróci nam *div'a* z tekstem "Required".
+
+### Wysłanie formularza
+
+Najważniejszą logikę formularza mamy już skończoną. Pozostalo nam napisanie podstawowej funkcji obsługującej wysyłanie formularza - *handleSubmit*.
+
+```jsx
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  alert(JSON.stringify(values, 2, null));
+};
+```
+
+Wysłanie formularza powoduje wywołanie domyślnego dla tego tagu HTML zachowania. W przypadku tagu `<form/>` dochodzi domyślnie do przeładowania strony przeglądarki w momencie wysłania formularza. Idea *single-page app* i całego Reacta sugeruje nam, ze nie jest to pożądane przez nas zachowanie i musimy jakoś je powstrzymać. Możemy tego dokonać przy użyciu metody `preventDefault()`.
+
+Następnie używamy metody `alert`, która wyświetla nam pod postcią okienka w przeglądarce wartości naszego formularza. Zamiast tego, w przypadku normalnej aplikacji, najprawdopodoniej byśmy zastosowali funkcje asynchroniczną umożliwiającą wysłanie danych do zewnętrznego API - lecz nie jest to częścią tego artykułu.
+
+Nie możemy zapominać o dodaniu funkcji *handleSubmit* do naszego elementu `<form/>` wraz z przyciskiem typu `submit` pozwalającym na jej wywołanie:
+
+```jsx
+return (
+  <>
+    <form onSubmit={handleSubmit}>
+      ...
+      <button type="submit">Submit</button>
+    </form>
+  </>
+);
+```
+
+Dodajmy jeszcze brakującą część walidacji sprawdzającą czy wszystkie pola zawierają wartości przed wysłaniem formularza.
+
+```jsx
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  // pętla sprawdzająca wartości formularza, w przypadku braku aktualizuje obiekt z błędami
+  for (const property in values) {
+    if (!values[property]) {
+      setErrors((errors) => ({
+        ...errors,
+        [property]: "Required",
+      }));
+    }
+  }
+
+  alert(JSON.stringify(values, 2, null));
+};
+```
+
+W takim kształcie ta funkcja i tak doprowadzi do wywołania `alert`. Należy sprawdzić przed wywołaniem `alert` zawartość obiektu `values` oraz `errors`. To można potraktować jako prace domową - być może warto będzie dodać kolejny stan obsługujący stan wysłania formularza oraz jego poprawność.
+
+### Podsumowanie
+
+Formularz w takim ksztalcie jest bardzo rozwojowy i ma niezliczoną liczbe miejsc, w których **kod można ulepszyć**. Kilka `useState` można zamienić na jednego hook'a `useReducer`. Stan można globalnie przekazywać przy użyciu `useContext`. Mozna wydzielić odrębne komponenty zawierające `<input/>` oraz komponent wyświetlający błędy. Można rozbudować walidację o sprawdzanie długości wprowadzanych wartości lub uzytycych znaków przy użyciu regex'a. Cały kod nie zawiera **ani jednej linijki CSS'ów** co również jest niezbędne do przyjaznej interakcji użytkownika z naszym formularzem.
+
+Jak sam widzisz jest to **tylko zarys** dobrze napisanego formularza, pokauje to także **jak dużo pracy oszczędza** nam wykorzystanie bibliotek typu Formik czy wprowadzenia walidacji przy użyciu paczki Yup.
+
+Z pewnością ten formularz pozwala na napisanie koljenych kilku artykułów pokazujących jak wprowadzić wymienione przeze mnie wyżej sugestie w życie i jak zoptymalizować istniejacy już kod.
